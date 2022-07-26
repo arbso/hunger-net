@@ -42,7 +42,7 @@ public class OrderController {
     public ResponseEntity<List<OrderDto>> findAll() {
         logger.info("Finding all orders");
         List<OrderDto> orderDtos = orderService.findAll();
-        if(orderDtos.isEmpty()){
+        if (orderDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(orderDtos);
@@ -62,15 +62,15 @@ public class OrderController {
 
     @PutMapping("/approve/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> approve(@PathVariable Integer id){
+    public ResponseEntity<OrderDto> approve(@PathVariable Integer id) {
         OrderDto approvedOrder = orderService.findById(id);
         approvedOrder.setOrderStatus(OrderStatus.APPROVED);
-        return ResponseEntity.ok(orderService.update(approvedOrder,id));
+        return ResponseEntity.ok(orderService.update(approvedOrder, id));
     }
 
     @PutMapping("/reject/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> reject(@PathVariable Integer id){
+    public ResponseEntity<OrderDto> reject(@PathVariable Integer id) {
         OrderDto approvedOrder = orderService.findById(id);
         approvedOrder.setOrderStatus(OrderStatus.REJECTED);
         return ResponseEntity.ok(orderService.update(approvedOrder, id));
@@ -78,33 +78,33 @@ public class OrderController {
 
     @PutMapping("/prepare/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> prepare(@PathVariable Integer id){
+    public ResponseEntity<OrderDto> prepare(@PathVariable Integer id) {
         OrderDto approvedOrder = orderService.findById(id);
         approvedOrder.setOrderStatus(OrderStatus.PREPARED);
-        return ResponseEntity.ok(orderService.update(approvedOrder,id));
+        return ResponseEntity.ok(orderService.update(approvedOrder, id));
     }
 
     @PutMapping("/wait/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> wait(@PathVariable Integer id){
+    public ResponseEntity<OrderDto> wait(@PathVariable Integer id) {
         OrderDto approvedOrder = orderService.findById(id);
         approvedOrder.setOrderStatus(OrderStatus.WAITING_FOR_DELIVERY);
-        return ResponseEntity.ok(orderService.update(approvedOrder,id));
+        return ResponseEntity.ok(orderService.update(approvedOrder, id));
     }
 
     @PutMapping("/deliver/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> deliver(@PathVariable Integer id){
+    public ResponseEntity<OrderDto> deliver(@PathVariable Integer id) {
         OrderDto approvedOrder = orderService.findById(id);
         approvedOrder.setOrderStatus(OrderStatus.DELIVERED);
-        return ResponseEntity.ok(orderService.update(approvedOrder,id));
+        return ResponseEntity.ok(orderService.update(approvedOrder, id));
     }
 
     @GetMapping("/restaurant/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<List<OrderDto>> getOrdersByRestaurantId(@PathVariable Integer id){
+    public ResponseEntity<List<OrderDto>> getOrdersByRestaurantId(@PathVariable Integer id) {
         List<OrderDto> orderDtos = orderService.getOrdersByRestaurantId(id);
-        if(orderDtos.isEmpty()){
+        if (orderDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(orderDtos);
@@ -112,9 +112,9 @@ public class OrderController {
 
     @GetMapping("/user/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER','ROLE_CLIENT')")
-    public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable Integer id){
+    public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable Integer id) {
         List<OrderDto> orderDtos = orderService.getOrdersByUserId(id);
-        if(orderDtos.isEmpty()){
+        if (orderDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(orderDtos);

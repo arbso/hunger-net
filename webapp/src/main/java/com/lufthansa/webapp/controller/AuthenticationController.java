@@ -29,6 +29,6 @@ public class AuthenticationController {
             @ApiResponse(description = "Username not found", responseCode = "422")
     })
     public AuthJWT login(@RequestBody AuthUser authUser) {
-        return loginService.login(authUser.getUsername(),authUser.getPassword());
+        return loginService.login(authUser.getUsername(), authUser.getPassword());
     }
 }

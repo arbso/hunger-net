@@ -28,7 +28,7 @@ public class DishController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<DishDto> update(@PathVariable Integer id, @RequestBody DishDto dishDto){
+    public ResponseEntity<DishDto> update(@PathVariable Integer id, @RequestBody DishDto dishDto) {
         return ResponseEntity.ok(dishService.update(dishDto, id));
     }
 
@@ -43,7 +43,7 @@ public class DishController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<List<DishDto>> findAll() {
         List<DishDto> dishDtos = dishService.findAll();
-        if(dishDtos.isEmpty()){
+        if (dishDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(dishDtos);
@@ -53,7 +53,7 @@ public class DishController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER', 'ROLE_CLIENT')")
     public ResponseEntity<List<DishDto>> findByMenuId(@PathVariable Integer id) {
         List<DishDto> dishDtos = dishService.findByMenuId(id);
-        if(dishDtos.isEmpty()){
+        if (dishDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(dishDtos);

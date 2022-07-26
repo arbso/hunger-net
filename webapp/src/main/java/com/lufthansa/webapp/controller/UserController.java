@@ -25,8 +25,6 @@ public class UserController {
     private final UserService userService;
 
 
-
-
     @PostMapping("/add")
     public ResponseEntity<User> add(@RequestBody User user) {
 
@@ -45,7 +43,7 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<User>> findAllUsers() {
         List<User> users = userService.findAll();
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(users);
@@ -53,7 +51,7 @@ public class UserController {
 
     @PatchMapping("/update/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User user){
+    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User user) {
         return ResponseEntity.ok(userService.update(user, id));
     }
 
@@ -66,7 +64,7 @@ public class UserController {
 
     @PutMapping("/make-manager/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> makeManager(@PathVariable Integer id, @RequestBody User user){
+    public ResponseEntity<User> makeManager(@PathVariable Integer id, @RequestBody User user) {
         User userManager = userService.findById(user.getId());
         userManager.setRestaurantId(id);
 
@@ -78,12 +76,14 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<User>> findUsersByRole(@PathVariable("id") Integer id) {
         List<User> users = userService.findByRole(id);
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(users);
     }
+
     private final UserRepository userRepository;
+
     @GetMapping("/username/{username}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER')")
     public ResponseEntity<User> findUsersByUsername(@PathVariable("username") String username) {

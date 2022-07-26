@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.lufthansa.backend.service.RestaurantService;
 
 import java.util.List;
+
 @RestController
 @RequestMapping(value = "/restaurants")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -33,9 +34,9 @@ public class RestaurantController {
 
     @GetMapping("/user/{username}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<List<RestaurantDto>> findRestaurantsByUsername(@PathVariable String username){
+    public ResponseEntity<List<RestaurantDto>> findRestaurantsByUsername(@PathVariable String username) {
         List<RestaurantDto> restaurantDtos = restaurantService.findRestaurantsByUserId(username);
-        if(restaurantDtos.isEmpty()) {
+        if (restaurantDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(restaurantDtos);
@@ -43,15 +44,15 @@ public class RestaurantController {
 
     @PatchMapping("/update/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<RestaurantDto> update(@PathVariable Integer id, @RequestBody RestaurantDto restaurantDto){
-            return ResponseEntity.ok(restaurantService.update(restaurantDto, id));
+    public ResponseEntity<RestaurantDto> update(@PathVariable Integer id, @RequestBody RestaurantDto restaurantDto) {
+        return ResponseEntity.ok(restaurantService.update(restaurantDto, id));
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER', 'ROLE_CLIENT')")
     public ResponseEntity<List<RestaurantDto>> findAllRestaurants() {
 
-        if(restaurantService.findAll().isEmpty()){
+        if (restaurantService.findAll().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
