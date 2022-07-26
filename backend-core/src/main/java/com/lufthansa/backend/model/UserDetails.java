@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 
 @Embeddable
-@Table(name="user_details")
+@Table(name = "user_details")
 @Getter
 @Setter
 public class UserDetails {
@@ -22,8 +22,6 @@ public class UserDetails {
 
     @Column(name = "phone_Number")
     private String phoneNumber;
-
-
 
 
 }

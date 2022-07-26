@@ -13,8 +13,8 @@ public class OrderItem {
 
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="orders_item_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orders_item_id")
     private Integer id;
 
     @Column(name = "orders_item_order")
@@ -24,6 +24,6 @@ public class OrderItem {
     @JoinColumn(name = "dish_id")
     private Dish dish;
 
-    @Column(name="orders_item_quantity")
+    @Column(name = "orders_item_quantity")
     private Integer quantity;
 }

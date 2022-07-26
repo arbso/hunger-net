@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lufthansa.backend.AbstractTest;
 import com.lufthansa.backend.model.Dish;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +32,7 @@ public class DishControllerTest extends AbstractTest {
     private DishRepository dishRepository;
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
+    @Mock
     private ObjectMapper objectMapper;
 
     @Test

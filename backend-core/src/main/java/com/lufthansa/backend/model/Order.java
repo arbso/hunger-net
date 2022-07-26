@@ -13,27 +13,6 @@ import java.sql.Date;
 @Setter
 public class Order {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-//
-//    private String order_id;
-//
-//    private String delivery_address;
-//
-//    private Integer user_id;
-//
-//    @OneToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name = "dish_id")
-//    private Dish dish;
-//
-//    private int quantity;
-//
-//    private double price;
-//
-//    @Column(updatable=false, insertable=false)
-//    String order_date;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orders_id")
@@ -65,7 +44,6 @@ public class Order {
     private Integer quantity;
 
     @OneToOne
-////    @JoinColumn(name = "dish_id")
     private Dish dish;
 
     @Column(name="user_id")
@@ -76,14 +54,5 @@ public class Order {
     @JoinColumn(name="restaurant_id")
     private Integer restaurantId;
 
-//
-//    @OneToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//    @OneToOne
-//    private Restaurant restaurant;
 
-//    @OneToMany
-//    private Set<OrderItem> orderItem = new HashSet<>();
 }

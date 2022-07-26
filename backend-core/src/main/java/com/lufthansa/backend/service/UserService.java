@@ -40,8 +40,7 @@ public class UserService {
     }
 
 
-
-    public User update(User user,Integer id){
+    public User update(User user, Integer id) {
         Optional<User> userOptional = userRepository.findById(id);
         User userUpdate = userOptional.get();
         userUpdate.setUsername(user.getUsername());
@@ -54,42 +53,43 @@ public class UserService {
     }
 
 
-    public void deleteById(Integer id){
+    public void deleteById(Integer id) {
         logger.info("Deleting user.");
         userRepository.deleteById(id);
     }
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         logger.info("Retrieving all users.");
         return userRepository.findAllUsersExceptAdmins();
     }
 
 
-    public User findById(Integer id){
+    public User findById(Integer id) {
         logger.info("Finding user.");
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find user with id: " + id));
     }
 
-    public List<User> findByRole(Integer id){
+    public List<User> findByRole(Integer id) {
         logger.info("Find user by role.");
         return userRepository.findUserByRoles(id);
     }
-    public List<User> findClientUsers(){
+
+    public List<User> findClientUsers() {
         logger.info("Find user by role.");
         return userRepository.findClientUsers();
     }
 
-    public List<User> findManagerUsers(){
+    public List<User> findManagerUsers() {
         logger.info("Find user by role.");
         return userRepository.findManagerUsers();
     }
 
-    public List<User> findAdminUsers(){
+    public List<User> findAdminUsers() {
         logger.info("Find user by role.");
         return userRepository.findAdminUsers();
     }
 
-    public User findByUsername(String username){
+    public User findByUsername(String username) {
         logger.info("Finding user by username");
         return userRepository.findByUsername(username);
     }

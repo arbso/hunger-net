@@ -26,7 +26,7 @@ public class RestaurantService {
     private final DtoConversion dtoConversion;
     private final MenuRepository menuRepository;
 
-    public RestaurantDto save(RestaurantDto restaurantDto){
+    public RestaurantDto save(RestaurantDto restaurantDto) {
         Restaurant restaurant = new Restaurant();
         restaurant.setRestaurantName(restaurantDto.getRestaurantName());
         restaurant.setRestaurantEmail(restaurantDto.getRestaurantEmail());
@@ -35,44 +35,44 @@ public class RestaurantService {
         return dtoConversion.convertRestaurant(restaurantRepository.save(restaurant));
     }
 
-    public RestaurantDto update(RestaurantDto restaurantDto, Integer id){
-        logger.info("Updating restaurant.");
+    public RestaurantDto update(RestaurantDto restaurantDto, Integer id) {
+
         Optional<Restaurant> restaurantOptional = restaurantRepository.findById(id);
         Restaurant restaurant = restaurantOptional.get();
         restaurant.setRestaurantName(restaurantDto.getRestaurantName());
         restaurant.setRestaurantEmail(restaurantDto.getRestaurantEmail());
         restaurant.setRestaurantPhone(restaurantDto.getRestaurantPhone());
         Set<Menu> menuList = restaurant.getMenus();
-        for(MenuDto menuDto : restaurantDto.getMenus() ){
+        for (MenuDto menuDto : restaurantDto.getMenus()) {
             Optional<Menu> menuOptional = menuRepository.findById(menuDto.getId());
-            if(menuOptional.isPresent()){
+            if (menuOptional.isPresent()) {
                 Menu menu = menuOptional.get();
                 menuList.add(menu);
             }
         }
-
+        logger.info("Updating restaurant.");
         restaurant.setMenus(menuList);
         return dtoConversion.convertRestaurant(restaurantRepository.save(restaurant));
     }
 
-    public void deleteById(Integer id){
+    public void deleteById(Integer id) {
         logger.info("Deleting restaurant.");
         restaurantRepository.deleteById(id);
     }
 
-    public RestaurantDto findById(Integer id){
+    public RestaurantDto findById(Integer id) {
         logger.info("Finding restaurant.");
         return dtoConversion.convertRestaurant(restaurantRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find restaurant with id: " + id)));
 
     }
 
-    public List<RestaurantDto> findAll(){
+    public List<RestaurantDto> findAll() {
         logger.info("Retrieving all restaurants.");
         return restaurantRepository.findAll().stream().map(dtoConversion::convertRestaurant).collect(Collectors.toList());
     }
 
-    public List<RestaurantDto> findRestaurantsByUserId(String username){
+    public List<RestaurantDto> findRestaurantsByUserId(String username) {
         logger.info("Retrieving restaurants by User Id");
         return restaurantRepository.findRestaurantsByUserId(username).stream().map(dtoConversion::convertRestaurant).collect(Collectors.toList());
     }

@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 @Data
 public class MenuDto {
 
@@ -19,12 +20,12 @@ public class MenuDto {
     private String menuDescription;
     @Temporal(TemporalType.TIME)
     @DateTimeFormat(style = "HH:mm")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 
     private Date menuOpeningTime;
     @Temporal(TemporalType.TIME)
     @DateTimeFormat(style = "HH:mm")
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private Date menuClosingTime;
 
     private Integer restaurantId;

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE User SET active = false WHERE user_id=?")
@@ -33,28 +33,27 @@ public class User {
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_user_id")
+    @JoinColumn(name = "user_user_id")
     List<Role> roles;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_details", joinColumns = @JoinColumn(name = "id"))
-    private Set<UserDetails> userDetails= new HashSet<>();
+    private Set<UserDetails> userDetails = new HashSet<>();
 
     @OneToMany
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private Set<Order> orders = new HashSet<>();
 
-    @Column(name="restaurant_id")
-    @JoinColumn(name="restaurant_id")
+    @Column(name = "restaurant_id")
+    @JoinColumn(name = "restaurant_id")
     private Integer restaurantId;
 
-    @Column(name="active", columnDefinition = "boolean default true")
+    @Column(name = "active", columnDefinition = "boolean default true")
     private boolean active = Boolean.TRUE;
 
 //    @OneToOne
 //    @JoinColumn(name="restaurant_id", referencedColumnName = "manager_id")
 //    private Restaurant restaurant;
 
-    
 
 }

@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 @Component
 public class DtoConversion {
 
-    public UserDto convertUser(User user){
+    // Methods to convert each class into a DTO class
+    public UserDto convertUser(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
@@ -21,7 +22,7 @@ public class DtoConversion {
         return userDto;
     }
 
-    public UserDetailsDto convertUserDetails(UserDetails userDetails){
+    public UserDetailsDto convertUserDetails(UserDetails userDetails) {
         UserDetailsDto userDetailsDto = new UserDetailsDto();
         userDetailsDto.setFirstName(userDetails.getFirstName());
         userDetailsDto.setLastName(userDetails.getLastName());
@@ -29,7 +30,7 @@ public class DtoConversion {
         return userDetailsDto;
     }
 
-    public RestaurantDto convertRestaurant(Restaurant restaurant){
+    public RestaurantDto convertRestaurant(Restaurant restaurant) {
         RestaurantDto restaurantDto = new RestaurantDto();
         restaurantDto.setId(restaurant.getId());
         restaurantDto.setRestaurantName(restaurant.getRestaurantName());
@@ -43,7 +44,7 @@ public class DtoConversion {
         return restaurantDto;
     }
 
-    public MenuDto convertMenu(Menu menu){
+    public MenuDto convertMenu(Menu menu) {
         MenuDto menuDto = new MenuDto();
         menuDto.setId(menu.getId());
         menuDto.setRestaurantId(menu.getRestaurantId());
@@ -61,7 +62,7 @@ public class DtoConversion {
         return menuDto;
     }
 
-    public DishDto convertDish(Dish dish){
+    public DishDto convertDish(Dish dish) {
 
         DishDto dishDto = new DishDto();
         dishDto.setId(dish.getId());
@@ -72,7 +73,7 @@ public class DtoConversion {
         return dishDto;
     }
 
-    public OrderDto convertOrder(Order order){
+    public OrderDto convertOrder(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
         orderDto.setOrderNumber(order.getOrderNumber());

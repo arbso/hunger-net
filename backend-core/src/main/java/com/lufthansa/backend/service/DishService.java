@@ -35,13 +35,12 @@ public class DishService {
     }
 
     public DishDto update(DishDto dishDto, Integer id) {
-        logger.info("Updating dish.");
-        Optional<Dish> dishOptional= dishRepository.findById(id);
+        Optional<Dish> dishOptional = dishRepository.findById(id);
         Dish dish = dishOptional.get();
         dish.setDishName(dishDto.getDishName());
         dish.setDishDescription(dishDto.getDishDescription());
         dish.setDishPrice(dishDto.getDishPrice());
-
+        logger.info("Updating dish.");
         return dtoConversion.convertDish(dishRepository.save(dish));
     }
 

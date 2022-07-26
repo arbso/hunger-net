@@ -6,6 +6,7 @@ import com.lufthansa.backend.model.OrderStatus;
 import lombok.Data;
 
 import java.sql.Date;
+
 @Data
 public class OrderDto {
 

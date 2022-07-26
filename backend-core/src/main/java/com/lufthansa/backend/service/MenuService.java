@@ -29,7 +29,7 @@ public class MenuService {
 
     private final DishRepository dishRepository;
 
-    public MenuDto save(MenuDto menuDto){
+    public MenuDto save(MenuDto menuDto) {
         Menu menu = new Menu();
         menu.setMenuName(menuDto.getMenuName());
         menu.setMenuDescription(menuDto.getMenuDescription());
@@ -41,18 +41,18 @@ public class MenuService {
         return dtoConversion.convertMenu(menuRepository.save(menu));
     }
 
-    public void deleteById(Integer id){
+    public void deleteById(Integer id) {
         logger.info("Deleting menu.");
         menuRepository.deleteById(id);
     }
 
-    public MenuDto findById(Integer id){
+    public MenuDto findById(Integer id) {
         logger.info("Finding menu.");
         return dtoConversion.convertMenu(menuRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find menu with id: " + id)));
     }
 
-    public List<MenuDto> findAll(){
+    public List<MenuDto> findAll() {
         logger.info("Retrieving all menus.");
         List<MenuDto> menuDtos = menuRepository.findAll()
                 .stream()
@@ -63,7 +63,7 @@ public class MenuService {
         return menuDtos;
     }
 
-    public MenuDto update(MenuDto menuDto, Integer id){
+    public MenuDto update(MenuDto menuDto, Integer id) {
         logger.info("Updating restaurant.");
         Optional<Menu> menuOptional = menuRepository.findById(id);
         Menu menu = menuOptional.get();
@@ -74,9 +74,9 @@ public class MenuService {
         menu.setMenuClosingTime(menuDto.getMenuClosingTime());
         menu.setRestaurantId(menuDto.getRestaurantId());
         Set<Dish> dishSet = menu.getDishes();
-        for(DishDto dishDto : menuDto.getDishes() ){
+        for (DishDto dishDto : menuDto.getDishes()) {
             Optional<Dish> dishOptional = dishRepository.findById(dishDto.getId());
-            if(dishOptional.isPresent()){
+            if (dishOptional.isPresent()) {
                 Dish dish = dishOptional.get();
                 dishSet.add(dish);
             }
@@ -85,12 +85,13 @@ public class MenuService {
         menu.setDishes(dishSet);
         return dtoConversion.convertMenu(menuRepository.save(menu));
     }
-    public List<MenuDto> findByRestaurantId(Integer id){
+
+    public List<MenuDto> findByRestaurantId(Integer id) {
         logger.info("Getting active menus by restaurant id");
         return menuRepository.getActiveMenusByRestaurantId(id).stream().map(dtoConversion::convertMenu).collect(Collectors.toList());
     }
 
-    public List<MenuDto> findAllByRestaurantId(Integer id){
+    public List<MenuDto> findAllByRestaurantId(Integer id) {
         logger.info("Getting menus by restaurant id");
         return menuRepository.getMenusByRestaurantId(id).stream().map(dtoConversion::convertMenu).collect(Collectors.toList());
     }

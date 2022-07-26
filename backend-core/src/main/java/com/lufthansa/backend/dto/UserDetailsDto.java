@@ -1,7 +1,6 @@
 package com.lufthansa.backend.dto;
 
 
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,6 @@ public class UserDetailsDto {
     private String lastName;
 
     private String phoneNumber;
-
 
 
 }

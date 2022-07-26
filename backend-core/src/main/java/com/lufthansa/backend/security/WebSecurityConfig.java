@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()//
 //                .antMatchers("/users/signin").permitAll()//
                 .antMatchers("/login").permitAll()//
-                .antMatchers(HttpMethod.POST,"/users/add").permitAll()//
+                .antMatchers(HttpMethod.POST, "/users/add").permitAll()//
 //                .antMatchers("/users/signup").permitAll()//
                 .antMatchers("/h2-console/**/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic();
     }
+
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -76,6 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v2/api-docs")//
@@ -89,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .ignoring()
                 .antMatchers("/h2-console/**/**")
-                        .antMatchers("/users/add");
+                .antMatchers("/users/add");
         ;
     }
 

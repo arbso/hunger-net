@@ -39,9 +39,4 @@ public class Dish {
     @Column(name = "active", columnDefinition = "boolean default true")
     private boolean active = Boolean.TRUE;
 
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "menu_id", insertable = false, updatable = false)
-//    private Menu menu;
-
 }

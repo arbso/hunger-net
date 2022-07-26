@@ -3,7 +3,10 @@ package com.lufthansa.backend.security;
 
 import com.lufthansa.backend.exception.CustomException;
 import com.lufthansa.backend.model.Role;
+import com.lufthansa.backend.service.DishService;
 import io.jsonwebtoken.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
+    private static final Logger logger = LogManager.getLogger(JwtTokenProvider.class);
     @Value("${security.jwt.token.secret-key:secret-key}")
     private String secretKey;
 
@@ -45,6 +49,8 @@ public class JwtTokenProvider {
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        logger.info("Generating JWT Token");
 
         return Jwts.builder()//
                 .setClaims(claims)//

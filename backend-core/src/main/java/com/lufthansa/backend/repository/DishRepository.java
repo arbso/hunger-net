@@ -13,6 +13,8 @@ import java.util.List;
 public interface DishRepository extends JpaRepository<Dish, Integer> {
 
     Dish getDishById(Integer id);
-    @Query(value="SELECT * FROM dish d WHERE d.menu_id=:id", nativeQuery = true)
+
+    // Get all dishes that belong to a menu
+    @Query(value = "SELECT * FROM dish d WHERE d.menu_id=:id", nativeQuery = true)
     List<Dish> getDishesByMenuId(@Param("id") Integer id);
 }

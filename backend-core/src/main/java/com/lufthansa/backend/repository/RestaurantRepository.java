@@ -11,11 +11,13 @@ import java.util.List;
 @Component
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
-    @Query(value ="SELECT restaurant.* FROM restaurant\n" +
+    // Query to get the restaurant where a user is a manager
+    @Query(value = "SELECT restaurant.* FROM restaurant\n" +
             "INNER JOIN user ON restaurant.restaurant_id=user.restaurant_id\n" +
             "WHERE username=:username", nativeQuery = true)
     List<Restaurant> findRestaurantsByUserId(@Param("username") String username);
 
     Restaurant findByRestaurantName(String restaurantName);
+
     boolean existsByRestaurantName(String restaurantName);
 }
