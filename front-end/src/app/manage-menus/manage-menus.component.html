@@ -1,0 +1,49 @@
+
+<h1>Menus</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Menu Name</th>
+            <th>Menu Description</th>
+            <th>Menu Opening Time</th>
+            <th>Menu Closing Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let menu of menus | slice: (page-1) * pageSize : page * pageSize">
+            <td>{{menu.menuName}}</td>
+            <td>{{menu.menuDescription}}</td>
+            <td>{{menu.menuOpeningTime}}</td>
+            <td>{{menu.menuClosingTime}}</td>
+<td>
+    <div class="btn-group" role="group" aria-label="Toolbar with button groups">
+            <button (click)="inspectMenu(menu.id)" type="button" class="btn btn-secondary"><i class="bi bi-pencil-fill"></i> Inspect</button>
+
+            <button (click)="deleteMenu(menu.id)" type="button" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Delete</button>
+
+            <button (click)="editMenu(menu.id)" type="button" class="btn btn-success"><i class="bi bi-pencil-fill"></i> Edit</button>
+      </div>
+</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center">
+    <div class="row">
+        <div class="col-md-4">
+<ngb-pagination class="d-flex justify-content-center"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  [collectionSize]="menus.length"></ngb-pagination>
+
+  </div>
+  <div class="col-md-8">
+  <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize">
+    <option [ngValue]="5">5 items per page</option>
+    <option [ngValue]="10">10 items per page</option>
+    <option [ngValue]="15">15 items per page</option>
+  </select>
+  </div>
+</div>

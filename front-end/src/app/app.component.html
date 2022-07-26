@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+  <a class="navbar-brand" href="#">
+    <img alt="HungerNet" src="..\assets\hungernetS.png" width="60" height="60"><h1>Hunger Net</h1>
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" *ngIf="authority === 'admin'">
+        <button class="btn btn-outline-secondary" routerLink="admin"><i class="bi bi-person-workspace"></i>Admin Panel</button>
+      </li>
+      <li class="nav-item active">
+        <button class="btn btn-outline-secondary" routerLink=""><i class="bi bi-house-door-fill"></i>Home</button>
+      </li>
+      <li *ngIf="isLogin" class="nav-item">
+        <button class="btn btn-outline-secondary" (click)="restaurants()"style="cursor: pointer;"><i class="bi bi-shop"></i>Restaurants</button>
+      </li>
+      <li class="nav-item" *ngIf="authority === 'manager'">
+        
+        <button class="btn btn-outline-secondary" routerLink="manage-restaurant"><i class="bi bi-person-circle"></i>Manage Restaurant</button>
+      </li>
+      <li *ngIf="!isLogin" class="nav-item">
+        <button class="btn btn-success" routerLink="login"><i class="bi bi-arrow-right-circle"></i>Login</button>
+      </li>
+      <li class="nav-item" *ngIf="authority === 'user'">
+        
+        <button class="btn btn-outline-secondary" routerLink="user"><i class="bi bi-person-circle"></i>My Profile</button>
+      </li>
+      <li *ngIf="isLogin" class="nav-item">
+        <button class="btn btn-outline-danger" (click)="logOut()"style="cursor: pointer;"><i class="bi bi-x-circle-fill"></i>Log Out</button>
+      </li>
+    </ul>
+    <button *ngIf="isLogin" class="btn btn-outline-secondary" routerLink="cart"><i class="bi bi-cart-fill">My Orders</i>
+    <div class="badge bg-danger">!</div></button>
+  </div>
+</nav>
+
+<body style="margin:30px;padding: 0px;">
+<router-outlet></router-outlet>
+</body>
+
+<footer>
+  <p>@2022 Made with love by AS for Lufthansa Industry Solutions</p>
+</footer>

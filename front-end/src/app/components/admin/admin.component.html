@@ -1,0 +1,48 @@
+<h1>Welcome to Admin Panel</h1>
+<h3>Select what you wish to do</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User Actions</th>
+            <th>Restaurant Actions</th>
+            <th>Order Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <button (click)="getUsers()" type="button" class="btn btn-secondary">View Users</button>
+        <br><br><a routerLink="/create-user" routerLinkActive="active" type="button" class="btn btn-secondary">Create User</a>
+            </td>
+            <td><a routerLink="view-restaurants" routerLinkActive="active" type="button" class="btn btn-secondary">View Restaurants</a>
+            <br><br><a routerLink="create-restaurant" routerLinkActive="active" type="button" class="btn btn-secondary">Create Restaurants</a>
+            </td>
+            <td><a routerLink="view-orders" routerLinkActive="active" type="button" class="btn btn-secondary">View Orders</a></td>
+        </tr>
+    </tbody>
+</table>
+<!-- <div class="dropdown">
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      User Actions
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a routerLink="/create-user" routerLinkActive="active" class="dropdown-item">Create User</a>
+        <a routerLink="view-restaurants" routerLinkActive="active" class="dropdown-item">View Restaurants</a>
+        <a routerLink="create-restaurant" routerLinkActive="active" class="dropdown-item">Create Restaurants</a>
+
+    </div>
+  </div>
+
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      User Actions
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+      <button routerLink="/create-user" routerLinkActive="active" class="dropdown-item" type="button">Action</button>
+      <button routerLink="view-restaurants" routerLinkActive="active" class="dropdown-item" type="button">Another action</button>
+      <button routerLink="create-restaurant" routerLinkActive="active" class="dropdown-item" type="button">Something else here</button>
+    </div>
+  </div> -->
+
+<!-- <router-outlet></router-outlet> -->

@@ -1,0 +1,18 @@
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<div *ngIf="info.token; else loggedOut">
+  <div class="container">
+    <h1 class="display-4">Welcome to Hunger Net, </h1>
+    <h1 class="display-3">You are logged in as, <small class="text-muted">{{info.username}}</small></h1>
+    <ul class="list-inline">
+      <small *ngFor="let authority of info.authorities">Your role is {{authority}}</small>
+    </ul>
+  </div>
+</div>
+
+<ng-template #loggedOut>
+  <div class="container">
+    You are not logged in. <br>
+    Please log in to access restaurants.
+  </div>
+</ng-template>

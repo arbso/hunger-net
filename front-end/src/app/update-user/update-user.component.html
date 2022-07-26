@@ -1,0 +1,43 @@
+<h3>Update User</h3>
+
+<div class="container">
+    <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="form-group">
+        <label for="username">Username: </label>
+          <input type="text" name="username" class="form-control" [(ngModel)]="user.username" #username="ngModel"
+            autocomplete="off" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email: </label>
+          <input type="text" name="email" class="form-control" [(ngModel)]="user.email"
+            #email="ngModel" autocomplete="off" required>
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">First Name: </label>
+          <input type="text" name="firstName" class="form-control" [(ngModel)]="ud.firstName"
+            #firstName="ngModel" autocomplete="off" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="lastName">Last Name: </label>
+          <input type="text" name="lastName" class="form-control" [(ngModel)]="ud.lastName"
+            #lastName="ngModel" autocomplete="off" required>
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number: </label>
+          <input type="text" name="phoneNumber" class="form-control" [(ngModel)]="ud.phoneNumber"
+            #phoneNumber="ngModel" autocomplete="off" required>
+      </div>
+      
+
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid"><i class="bi bi-save-fill"></i>Update user</button>
+        <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to update user: {{errorMsg}}</div>
+      </div>
+
+    </form>

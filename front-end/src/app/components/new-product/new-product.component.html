@@ -1,0 +1,36 @@
+<!-- <div class="container">
+  <h5>New Product</h5>
+  <form name="form" (ngSubmit)="onCreate()" #f="ngForm" novalidate>
+    <div class="form-group">
+      <label for="nombreProducto">Nombre: </label>
+      <input type="text" class="form-control" name="nombreProducto"
+        [(ngModel)]="form.nombreProducto" required autocomplete="off" >
+    </div>
+
+    <div class="form-group">
+      <label for="nombreProducto">Precio: </label>
+      <input type="number" class="form-control" name="precio"
+        [(ngModel)]="form.precio" required autocomplete="off" >
+    </div>
+
+    <div class="form-group">
+      <button class="btn btn-success" [disabled]="!f.valid">Create</button>
+    </div>
+  </form>
+
+  <div>
+    <button class="btn btn-primary float-left mr-3" (click)="getBack()">Home</button>
+  </div>
+
+  <br>
+  <br>
+
+  <div *ngIf="failProduct" class="float-left">
+    <p class="p-3 bg-danger text-white rounded">Error: {{messageFail}}</p>
+  </div>
+
+  <div *ngIf="created" class="float-left">
+    <p class="p-3 bg-success text-white rounded">Ok: {{messageOk}}</p>
+  </div>
+
+</div> -->

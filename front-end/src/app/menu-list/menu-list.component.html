@@ -1,0 +1,27 @@
+
+<h1>Menus</h1>
+<ng-template #elseBlock>Unfortunately, there is no active menus at the moment.</ng-template>
+<ng-container class="container" *ngIf="menus?.length>0; else elseBlock">
+    
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Menu Name</th>
+            <th>Menu Description</th>
+            <th>Menu Opening Time</th>
+            <th>Menu Closing Time</th>
+            <th>View</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let menu of menus">
+            <td>{{menu.menuName}}</td>
+            <td>{{menu.menuDescription}}</td>
+            <td>{{menu.menuOpeningTime}}</td>
+            <td>{{menu.menuClosingTime}}</td>
+            <button (click)="getMenuById(menu.id)" type="button" class="btn btn-secondary"><i class="bi bi-eye-fill"></i> View dishes</button>
+
+        </tr>
+    </tbody>
+</table>
+</ng-container>

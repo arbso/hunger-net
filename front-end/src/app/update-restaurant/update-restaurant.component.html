@@ -1,0 +1,32 @@
+<h3>Edit Restaurant</h3>
+
+<div class="container">
+    <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="form-group">
+        <label for="restaurantName">Restaurant Name: </label>
+          <input type="text" name="restaurantName" class="form-control" [(ngModel)]="restaurant.restaurantName" #restaurantName="ngModel"
+            autocomplete="off" required>
+      </div>
+
+      <div class="form-group">
+        <label for="restaurantEmail">Restaurant Email: </label>
+          <input type="text" name="restaurantEmail" class="form-control" [(ngModel)]="restaurant.restaurantEmail" #restaurantEmail="ngModel"
+            autocomplete="off" required>
+      </div>
+
+      <div class="form-group">
+        <label for="restaurantPhone">Restaurant Phone: </label>
+          <input type="text" name="restaurantPhone" class="form-control" [(ngModel)]="restaurant.restaurantPhone" #restaurantPhone="ngModel"
+            autocomplete="off" required>
+      </div>
+      
+
+
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid"><i class="bi bi-save-fill"></i> Edit Restaurant</button>
+        <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to edit restaurant: {{errorMsg}}</div>
+      </div>
+
+    </form>

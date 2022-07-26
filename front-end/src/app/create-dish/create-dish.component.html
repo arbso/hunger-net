@@ -1,0 +1,31 @@
+<h3>Create Dish</h3>
+
+<div class="container">
+    <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
+
+      <div class="form-group">
+        <label for="dishName">Dish Name: </label>
+          <input type="text" name="dishName" class="form-control" [(ngModel)]="form.dishName" #dishName="ngModel"
+            autocomplete="off" required>
+      </div>
+
+      <div class="form-group">
+        <label for="dishDescription">Dish Description: </label>
+          <input type="text" name="dishDescription" class="form-control" [(ngModel)]="form.dishDescription"
+            #dishDescription="ngModel" autocomplete="off" required>
+      </div>
+
+      <div class="form-group">
+        <label for="dishPrice">Dish Price: </label>
+          <input type="number" name="dishPrice" class="form-control" [(ngModel)]="form.dishPrice"
+            #dishPrice="ngModel" autocomplete="off" required>
+      </div>
+
+
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid"><i class="bi bi-plus-circle-fill"></i> Create Dish</button>
+        <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to create dish: {{errorMsg}}</div>
+      </div>
+
+    </form>

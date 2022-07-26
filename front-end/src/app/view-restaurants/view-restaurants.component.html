@@ -1,0 +1,37 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Restaurant Name</th>
+            <th>Restaurant Email</th>
+            <th>Restaurant Phone</th>
+            <th>View</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of restaurants | slice: (page-1) * pageSize : page * pageSize">
+            <td>{{ item.restaurantName }}</td>
+            <td>{{ item.restaurantEmail }}</td>
+            <td>{{ item.restaurantPhone }}</td>
+            <!-- <button (click)="getRestaurantById(item.id)" type="button" class="btn btn-info">View Menus</button> -->
+        </tr>
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center">
+    <div class="row">
+        <div class="col-md-4">
+<ngb-pagination class="d-flex justify-content-center"
+  [(page)]="page"
+  [pageSize]="pageSize"
+  [collectionSize]="restaurants.length"></ngb-pagination>
+
+  </div>
+  <div class="col-md-8">
+  <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize">
+    <option [ngValue]="5">5 items per page</option>
+    <option [ngValue]="10">10 items per page</option>
+    <option [ngValue]="15">15 items per page</option>
+    <option [ngValue]="20">20 items per page</option>
+  </select>
+  </div>
+</div>

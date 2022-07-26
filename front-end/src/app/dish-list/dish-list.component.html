@@ -1,0 +1,27 @@
+
+<h3>Menu Content</h3>
+
+<ng-template #elseBlock>Unfortunately, the menu is empty.</ng-template>
+<ng-container class="container" *ngIf="dishes?.length>0; else elseBlock">
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Dish Name</th>
+            <th>Dish Description</th>
+            <th>Dish Price</th>
+            <th>Order</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dish of dishes">
+            <td>{{dish.dishName}}</td>
+            <td>{{dish.dishDescription}}</td>
+            <td>{{dish.dishPrice}}</td>
+
+            <button (click)="createOrder(dish.id)" type="button" class="btn btn-success"><i class="bi bi-cart-plus-fill"></i>Order Now</button>
+
+        </tr>
+    </tbody>
+</table>
+</ng-container>
