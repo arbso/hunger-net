@@ -9,6 +9,8 @@ import com.lufthansa.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -92,5 +94,9 @@ public class UserService {
     public User findByUsername(String username) {
         logger.info("Finding user by username");
         return userRepository.findByUsername(username);
+    }
+
+    public Page<User> findPaginated(int page, int size) {
+        return userRepository.findAll(PageRequest.of(page, size));
     }
 }

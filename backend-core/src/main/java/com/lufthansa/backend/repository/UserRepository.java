@@ -4,13 +4,14 @@ import com.lufthansa.backend.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer>, PagingAndSortingRepository<User, Integer> {
 
     // Query to find users with a specific role
     @Query(value = "SELECT user.* FROM user INNER JOIN user_roles ON user.user_id = user_roles.user_user_id WHERE user_roles.roles=:id;", nativeQuery = true)

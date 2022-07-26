@@ -1,9 +1,11 @@
 package com.lufthansa.webapp.controller;
 
 
+import com.lufthansa.backend.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import com.lufthansa.backend.model.Role;
 import com.lufthansa.backend.model.User;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -108,4 +110,19 @@ public class UserController {
         return userService.findAdminUsers();
     }
 
+    @RequestMapping(
+            value = "/get",
+            params = { "page", "size" },
+            method = RequestMethod.GET
+    )
+    public Page<User> findPaginated(
+            @RequestParam("page") int page, @RequestParam("size") int size) {
+
+        Page<User> resultPage = userService.findPaginated(page, size);
+        if (page > resultPage.getTotalPages()) {
+            throw new ResourceNotFoundException("There is no more users on this page.");
+        }
+
+        return resultPage;
+    }
 }
