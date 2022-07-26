@@ -6,7 +6,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS
 @Injectable({
   providedIn: 'root'
 })
-export class ProductInterceptorService /*implements HttpInterceptor*/ {
+export class ProductIntrceptorService /*implements HttpInterceptor*/ {
 
   // constructor(private tokenService: TokenService) { }
 

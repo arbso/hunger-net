@@ -1,47 +1,49 @@
- <h3>Create User</h3>
+<h3>Create User</h3>
 
-    <div class="container">
-        <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
-    
-          <div class="form-group">
-            <label for="username">Username: </label>
-              <input type="text" name="username" class="form-control" [(ngModel)]="form.username" #username="ngModel"
-                autocomplete="off" required>
-          </div>
-    
-          <div class="form-group">
-            <label for="email">Email: </label>
-              <input type="text" name="email" class="form-control" [(ngModel)]="form.email"
-                #email="ngModel" autocomplete="off" required>
-          </div>
+<div class="container">
+  <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
 
-          <div class="form-group">
-            <label for="firstName">First Name: </label>
-              <input type="text" name="firstName" class="form-control" [(ngModel)]="form.firstName"
-                #firstName="ngModel" autocomplete="off" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="lastName">Last Name: </label>
-              <input type="text" name="lastName" class="form-control" [(ngModel)]="form.lastName"
-                #lastName="ngModel" autocomplete="off" required>
-          </div>
+    <div class="form-group">
+      <label for="username">Username: </label>
+      <input type="text" name="username" class="form-control" [(ngModel)]="form.username" #username="ngModel"
+             autocomplete="off" required>
+    </div>
 
-          <div class="form-group">
-            <label for="phoneNumber">Phone Number: </label>
-              <input type="text" name="phoneNumber" class="form-control" [(ngModel)]="form.phoneNumber"
-                #phoneNumber="ngModel" autocomplete="off" required>
-          </div>
-    
-          <div class="form-group">
-            <label for="password">Password: </label>
-              <input type="password" name="password" class="form-control" [(ngModel)]="form.password"
-                #password="ngModel" autocomplete="off" required>
-          </div>
-    
-          <div class="form-group">
-            <button type="submit" class="btn btn-success" [disabled]="!f.valid"><i class="bi bi-plus-circle-fill"></i>Create user</button>
-            <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to create user: {{errorMsg}}</div>
-          </div>
-    
-        </form>
+    <div class="form-group">
+      <label for="email">Email: </label>
+      <input type="text" name="email" class="form-control" [(ngModel)]="form.email"
+             #email="ngModel" autocomplete="off" required>
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">First Name: </label>
+      <input type="text" name="firstName" class="form-control" [(ngModel)]="form.firstName"
+             #firstName="ngModel" autocomplete="off" required>
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name: </label>
+      <input type="text" name="lastName" class="form-control" [(ngModel)]="form.lastName"
+             #lastName="ngModel" autocomplete="off" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number: </label>
+      <input type="text" name="phoneNumber" class="form-control" [(ngModel)]="form.phoneNumber"
+             #phoneNumber="ngModel" autocomplete="off" required>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password: </label>
+      <input type="password" name="password" class="form-control" [(ngModel)]="form.password"
+             #password="ngModel" autocomplete="off" required>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-success" [disabled]="!f.valid"><i class="bi bi-plus-circle-fill"></i>Create
+        user
+      </button>
+      <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to create user: {{errorMsg}}</div>
+    </div>
+
+  </form>

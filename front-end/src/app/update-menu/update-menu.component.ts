@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MenuService } from '../menu-list/menu.service';
-import { CreateMenu, UpdateMenu } from '../models/menu/createmenu';
-import { Menu } from '../models/menu/menu';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MenuService} from '../menu-list/menu.service';
+import {CreateMenu, UpdateMenu} from '../models/menu/createmenu';
+import {Menu} from '../models/menu/menu';
 
 @Component({
   selector: 'app-update-menu',
@@ -20,35 +20,34 @@ export class UpdateMenuComponent implements OnInit {
   errorMsg = '';
   id: number;
 
-  constructor(private menuService: MenuService,  
-    private router: Router, 
-    private route: ActivatedRoute) { }
+  constructor(private menuService: MenuService,
+              private router: Router,
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id']
-    this.menuService.getMenuDishes(this.id).subscribe(data =>{
+    this.menuService.getMenuDishes(this.id).subscribe(data => {
       this.menu = data;
 
-      console.log(this.menu)
-    },error => console.log(error));
+    }, error => console.log(error));
   }
 
   onSubmit() {
-    this.updateMenu = new UpdateMenu(this.menu.menuName,this.menu.menuDescription, this.menu.menuOpeningTime, this.menu.menuClosingTime, this.menu.restaurantId, this.menu.restaurantName);
-    console.log(this.updateMenu)
-    this.menuService.updateMenu(this.id,this.updateMenu).subscribe(data=>{
+    this.updateMenu = new UpdateMenu(this.menu.menuName, this.menu.menuDescription, this.menu.menuOpeningTime, this.menu.menuClosingTime, this.menu.restaurantId, this.menu.restaurantName);
+    this.menuService.updateMenu(this.id, this.updateMenu).subscribe(data => {
       this.isRegister = true;
       this.isRegisterFail = false;
       this.goToPage();
-    }, error=> console.log(error))
+    }, error => console.log(error))
 
     this.goToPage();
-      
+
   }
 
-  goToPage(){
-    this.router.navigate(['manage-restaurant/menus',this.menu.restaurantId])
+  goToPage() {
+    this.router.navigate(['manage-restaurant/menus', this.menu.restaurantId])
   }
 
-  
+
 }

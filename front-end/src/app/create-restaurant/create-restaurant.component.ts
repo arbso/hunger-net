@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Restaurant } from '../models/restaurant/restaurant';
-import { CreateRestaurant } from '../models/restaurant/restaurant copy';
-import { RestaurantService } from '../restaurant-list/restaurant.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {Restaurant} from '../models/restaurant/restaurant';
+import {CreateRestaurant} from '../models/restaurant/restaurant copy';
+import {RestaurantService} from '../restaurant-list/restaurant.service';
 
 @Component({
   selector: 'app-create-restaurant',
@@ -17,12 +17,13 @@ export class CreateRestaurantComponent implements OnInit {
   isRegisterFail = false;
   errorMsg = '';
 
-  constructor(private restaurantService: RestaurantService,  private router: Router) { }
+  constructor(private restaurantService: RestaurantService, private router: Router) {
+  }
 
   ngOnInit(): void {
   }
 
-  onSubmit(){
+  onSubmit() {
     this.restaurant = new CreateRestaurant(this.form.restaurantName, this.form.restaurantPhone, this.form.restaurantEmail);
     this.restaurantService.saveRestaurant(this.restaurant).subscribe(
       data => {

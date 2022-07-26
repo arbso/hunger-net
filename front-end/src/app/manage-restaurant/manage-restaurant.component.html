@@ -1,36 +1,45 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 
 
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Restaurant Name</th>
-            <th>Restaurant Email</th>
-            <th>Restaurant Phone</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of restaurants">
-            <td>{{ item.restaurantName }}</td>
-            <td>{{ item.restaurantEmail }}</td>
-            <td>{{ item.restaurantPhone }}</td>
-        </tr>
-    </tbody>
+  <thead>
+  <tr>
+    <th>Restaurant Name</th>
+    <th>Restaurant Email</th>
+    <th>Restaurant Phone</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of restaurants">
+    <td>{{ item.restaurantName }}</td>
+    <td>{{ item.restaurantEmail }}</td>
+    <td>{{ item.restaurantPhone }}</td>
+  </tr>
+  </tbody>
 </table>
 
 
-  <div *ngFor="let item of restaurants" class="btn-group" role="group" aria-label="Toolbar with button groups">
+<div *ngFor="let item of restaurants" class="btn-group" role="group" aria-label="Toolbar with button groups">
 
-        <button (click)="viewOrders(item.id)" routerLinkActive="active" type="button" class="btn btn-secondary"><i class="bi bi-eye-fill"></i> View Orders</button>
-
-
-        <button (click)="viewMenus(item.id)" routerLinkActive="active" type="button" class="btn btn-secondary"><i class="bi bi-eye-fill"></i> View Menus</button>
-
-
-        <button (click)="createMenu(item.id)" routerLinkActive="active" type="button" class="btn btn-success"><i class="bi bi-clipboard-plus-fill"></i> Create Menu</button>
+  <button (click)="viewOrders(item.id)" routerLinkActive="active" type="button" class="btn btn-secondary"><i
+    class="bi bi-eye-fill"></i> View Orders
+  </button>
 
 
-        <button (click)="updateRestaurant(item.id)" routerLinkActive="active" type="button" class="btn btn-dark"><i class="bi bi-pencil-fill"></i> Edit Restaurant</button>
+  <button (click)="viewMenus(item.id)" routerLinkActive="active" type="button" class="btn btn-secondary"><i
+    class="bi bi-eye-fill"></i> View Menus
+  </button>
 
 
-  </div>
+  <button (click)="createMenu(item.id)" routerLinkActive="active" type="button" class="btn btn-success"><i
+    class="bi bi-clipboard-plus-fill"></i> Create Menu
+  </button>
+
+
+  <button (click)="updateRestaurant(item.id)" routerLinkActive="active" type="button" class="btn btn-dark"><i
+    class="bi bi-pencil-fill"></i> Edit Restaurant
+  </button>
+
+
+</div>

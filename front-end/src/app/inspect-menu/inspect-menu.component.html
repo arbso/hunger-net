@@ -1,95 +1,99 @@
 <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 
 <h1>Inspecting Menu - {{menu.menuName}}</h1>
 <img class="mr-3" src="..\assets\menuIcon.png" width="40" height="40" alt="Generic placeholder image">
 <div class="container">
-    <div class="row justify-content-start">
+  <div class="row justify-content-start">
     <div class="col-md-4">
-        
-        <div class="name">
-            <h2 class="mt-0">{{menu.menuName}}</h2>
-        </div>
-        <div>
-            <h5>Description:</h5>
-            {{menu.menuDescription}}
-        </div>
-        <div>
-            <h5>Opening time:</h5>
+
+      <div class="name">
+        <h2 class="mt-0">{{menu.menuName}}</h2>
+      </div>
+      <div>
+        <h5>Description:</h5>
+        {{menu.menuDescription}}
+      </div>
+      <div>
+        <h5>Opening time:</h5>
         {{menu.menuOpeningTime}}
-        </div>
-        <div>
-            <h5>Closing time:</h5>
+      </div>
+      <div>
+        <h5>Closing time:</h5>
         {{menu.menuClosingTime}}
-        </div>
+      </div>
     </div>
-    <ng-template #elseBlock>    
-        <div class="col-md-8">
-            <h2>Dishes</h2> 
-            <button (click)="addDish(menu.id)" class="btn btn-success">Add Dish</button>
-            There is no dishes in this menu. Click Add Dish to get started.
-            
-        </div>
+    <ng-template #elseBlock>
+      <div class="col-md-8">
+        <h2>Dishes</h2>
+        <button (click)="addDish(menu.id)" class="btn btn-success">Add Dish</button>
+        There is no dishes in this menu. Click Add Dish to get started.
+
+      </div>
     </ng-template>
 
     <ng-container class="container" *ngIf="dishes?.length>0; else elseBlock">
-    <div class="col-md-8">
-    <h2>Dishes</h2>
-    <button (click)="addDish(menu.id)" class="btn btn-success">Add Dish</button>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Dish Name</th>
-                <th>Dish Description</th>
-                <th>Dish Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let dish of dishesTest">
-                <td>{{dish.dishName}}</td>
-                <td>{{dish.dishDescription}}</td>
-                <td>{{dish.dishPrice}}</td>
-                <td>
-
-                    <div class="btn-group" role="group" aria-label="Toolbar with button groups">
-                            <button (click)="editDish(dish.id)" type="button" class="btn btn-secondary"><i class="bi bi-pencil-fill"></i> Edit</button>
-
-                            <button (click)="deleteDish(dish.id)" type="button" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Delete</button>
-
-                      </div>
-
-                </td>
-    
-            
-    
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="d-flex justify-content-center">
-        <div class="row">
-            <div class="col-md-4">
-    <ngb-pagination class="d-flex justify-content-center"
-      [(page)]="page"
-      [pageSize]="pageSize"
-      [collectionSize]="dishes.length"></ngb-pagination>
-    
-      </div>
       <div class="col-md-8">
-      <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize">
-        <option [ngValue]="5">5 items per page</option>
-        <option [ngValue]="10">10 items per page</option>
-        <option [ngValue]="15">15 items per page</option>
-      </select>
+        <h2>Dishes</h2>
+        <button (click)="addDish(menu.id)" class="btn btn-success">Add Dish</button>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Dish Name</th>
+            <th>Dish Description</th>
+            <th>Dish Price</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let dish of dishesTest">
+            <td>{{dish.dishName}}</td>
+            <td>{{dish.dishDescription}}</td>
+            <td>{{dish.dishPrice}}</td>
+            <td>
+
+              <div class="btn-group" role="group" aria-label="Toolbar with button groups">
+                <button (click)="editDish(dish.id)" type="button" class="btn btn-secondary"><i
+                  class="bi bi-pencil-fill"></i> Edit
+                </button>
+
+                <button (click)="deleteDish(dish.id)" type="button" class="btn btn-danger"><i
+                  class="bi bi-trash-fill"></i> Delete
+                </button>
+
+              </div>
+
+            </td>
+
+
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center">
+          <div class="row">
+            <div class="col-md-4">
+              <ngb-pagination class="d-flex justify-content-center"
+                              [(page)]="page"
+                              [pageSize]="pageSize"
+                              [collectionSize]="dishes.length"></ngb-pagination>
+
+            </div>
+            <div class="col-md-8">
+              <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize">
+                <option [ngValue]="5">5 items per page</option>
+                <option [ngValue]="10">10 items per page</option>
+                <option [ngValue]="15">15 items per page</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
+    </ng-container>
 
-    </div>
-</div>
-</ng-container>
-
-</div>
+  </div>
 
 
-<!-- (click)="addDishToMenu(menu.id)" -->
+  <!-- (click)="addDishToMenu(menu.id)" -->

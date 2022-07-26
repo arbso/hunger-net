@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Restaurant } from '../models/restaurant/restaurant';
-import { User } from '../models/user/user';
-import { RestaurantService } from '../restaurant-list/restaurant.service';
-import { UserService } from '../user-list/user.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Restaurant} from '../models/restaurant/restaurant';
+import {User} from '../models/user/user';
+import {RestaurantService} from '../restaurant-list/restaurant.service';
+import {UserService} from '../user-list/user.service';
 
 @Component({
   selector: 'app-make-manager',
@@ -19,42 +19,40 @@ export class MakeManagerComponent implements OnInit {
   errorMsg = '';
   id: number;
   restaurants: Restaurant[];
-  
-  constructor( 
-    private router: Router, 
+
+  constructor(
+    private router: Router,
     private userService: UserService,
     private route: ActivatedRoute,
-    private restaurantService: RestaurantService) { }
+    private restaurantService: RestaurantService) {
+  }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id']
-    this.userService.getUser(this.id).subscribe(data =>{
+    this.userService.getUser(this.id).subscribe(data => {
       this.user = data;
-    },error => console.log(error));
+    }, error => console.log(error));
 
     this.getRestaurants();
   }
 
-  private getRestaurants(){
-    this.restaurantService.getRestaurantList().subscribe(data =>{
+  private getRestaurants() {
+    this.restaurantService.getRestaurantList().subscribe(data => {
       this.restaurants = data;
-      console.log(this.restaurants)
     })
   }
 
-  goToPage(){
+  goToPage() {
     this.router.navigate(['admin/users'])
   }
 
-  setManagerId(id:number){
-console.log(id)
-this.user.restaurantId = id;
-console.log(this.user)
+  setManagerId(id: number) {
+    this.user.restaurantId = id;
   }
 
-  onSubmit(){
+  onSubmit() {
 
-    this.userService.makeManager(this.user.restaurantId,this.user).subscribe(
+    this.userService.makeManager(this.user.restaurantId, this.user).subscribe(
       data => {
         this.isRegister = true;
         this.isRegisterFail = false;

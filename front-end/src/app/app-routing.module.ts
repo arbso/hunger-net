@@ -16,7 +16,6 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { ViewRestaurantsComponent } from './view-restaurants/view-restaurants.component';
 import { CreateRestaurantComponent } from './create-restaurant/create-restaurant.component';
-import { CartComponent } from './cart/cart.component';
 import { CreateOrderComponent } from './create-order/create-order.component';
 import { ViewOrdersComponent } from './view-orders/view-orders.component';
 import { MakeManagerComponent } from './make-manager/make-manager.component';

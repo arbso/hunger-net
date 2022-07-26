@@ -1,64 +1,53 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
 
 
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Order Number</th>
-            <th>Order Date</th>
-            <th>Order User</th>
-            <th>Restaurant</th>
-            <th>Dish</th>
-            <th>Price</th>
-            <th>Address</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let order of orders | slice: (page-1) * pageSize : page * pageSize">
-            <td>{{ order.orderNumber }}</td>
-            <td>{{ order.orderDate }}</td>
-            <td><a (click)="viewUser(order.userId)" type="button">{{order.userId}}</a></td>
-            <td>{{ order.restaurantName }}</td>
-            <td>{{order.dishName}}</td>
-            <td>{{ order.totalPrice }}</td>
-            <td>{{ order.orderAddress }}</td>
-            <td>{{ order.orderStatus }}</td>
+  <thead>
+  <tr>
+    <th>Order Number</th>
+    <th>Order Date</th>
+    <th>Order User</th>
+    <th>Restaurant</th>
+    <th>Dish</th>
+    <th>Price</th>
+    <th>Address</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of orders | slice: (page-1) * pageSize : page * pageSize">
+    <td>{{ order.orderNumber }}</td>
+    <td>{{ order.orderDate }}</td>
+    <td><a (click)="viewUser(order.userId)" type="button">{{order.userId}}</a></td>
+    <td>{{ order.restaurantName }}</td>
+    <td>{{order.dishName}}</td>
+    <td>{{ order.totalPrice }}</td>
+    <td>{{ order.orderAddress }}</td>
+    <td>{{ order.orderStatus }}</td>
 
 
-            <!-- <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                  <button class="dropdown-item" type="button">Action</button>
-                  <button class="dropdown-item" type="button">Another action</button>
-                  <button class="dropdown-item" type="button">Something else here</button>
-                </div>
-              </div> -->
-
-            
-        </tr>
-    </tbody>
+  </tr>
+  </tbody>
 </table>
 <div class="d-flex justify-content-center">
-    <div class="row">
-        <div class="col-md-4">
-<ngb-pagination class="d-flex justify-content-center"
-  [(page)]="page"
-  [pageSize]="pageSize"
-  [collectionSize]="orders.length"></ngb-pagination>
+  <div class="row">
+    <div class="col-md-4">
+      <ngb-pagination class="d-flex justify-content-center"
+                      [(page)]="page"
+                      [pageSize]="pageSize"
+                      [collectionSize]="orders.length"></ngb-pagination>
 
+    </div>
+    <div class="col-md-8">
+      <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize">
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="15">15 items per page</option>
+        <option [ngValue]="20">20 items per page</option>
+      </select>
+    </div>
   </div>
-  <div class="col-md-8">
-  <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize">
-    <option [ngValue]="5">5 items per page</option>
-    <option [ngValue]="10">10 items per page</option>
-    <option [ngValue]="15">15 items per page</option>
-    <option [ngValue]="20">20 items per page</option>
-  </select>
-  </div>
-</div>

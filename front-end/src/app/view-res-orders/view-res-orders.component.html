@@ -2,57 +2,68 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> -->
 
 
-
 <button (click)="sortByStatus()" type="button" class="btn btn-secondary">Sort By Status</button>
 <table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Order Number</th>
-            <th>Order User</th>
-            <th>Order Date</th>
-            <th>Restaurant</th>
-            <th>Dish</th>
-            <th>Price</th>
-            <th>Address</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let order of orders | slice: (page-1) * pageSize : page * pageSize">
-            <td>{{ order.orderNumber }}</td>
-            <td><a (click)="viewUser(order.userId)" type="button">{{order.userId}}</a></td>
-            <td>{{ order.orderDate }}</td>
-            <td>{{ order.restaurantName }}</td>
-            <td>{{ order.dishName }}</td>
-            <td>{{ order.totalPrice }}</td>
-            <td>{{ order.orderAddress }}</td>
-            <td>{{ order.orderStatus }}</td>
-            <button *ngIf="order.orderStatus == 'PLACED'" (click)="approveOrder(order.id, order)" type="button" class="btn btn-success">Approve</button>
-            <button *ngIf="order.orderStatus == 'PLACED'" (click)="rejectOrder(order.id, order)" type="button" class="btn btn-danger">Reject</button>
-            <button *ngIf="order.orderStatus == 'APPROVED'" (click)="prepareOrder(order.id, order)" type="button" class="btn btn-secondary">Prepare</button>
-            <button *ngIf="order.orderStatus == 'PREPARED'" (click)="waitOrder(order.id, order)" type="button" class="btn btn-info">Wait</button>
-            <button *ngIf="order.orderStatus == 'WAITING_FOR_DELIVERY'" (click)="deliverOrder(order.id, order)" type="button" class="btn btn-light">Deliver</button>
-            <button *ngIf="order.orderStatus == 'DELIVERED'" type="button" class="btn btn-success" disabled>Successfully delivered</button>
-        </tr>
-    </tbody>
+  <thead>
+  <tr>
+    <th>Order Number</th>
+    <th>Order User</th>
+    <th>Order Date</th>
+    <th>Restaurant</th>
+    <th>Dish</th>
+    <th>Price</th>
+    <th>Address</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of orders | slice: (page-1) * pageSize : page * pageSize">
+    <td>{{ order.orderNumber }}</td>
+    <td><a (click)="viewUser(order.userId)" type="button">{{order.userId}}</a></td>
+    <td>{{ order.orderDate }}</td>
+    <td>{{ order.restaurantName }}</td>
+    <td>{{ order.dishName }}</td>
+    <td>{{ order.totalPrice }}</td>
+    <td>{{ order.orderAddress }}</td>
+    <td>{{ order.orderStatus }}</td>
+    <button *ngIf="order.orderStatus == 'PLACED'" (click)="approveOrder(order.id, order)" type="button"
+            class="btn btn-success">Approve
+    </button>
+    <button *ngIf="order.orderStatus == 'PLACED'" (click)="rejectOrder(order.id, order)" type="button"
+            class="btn btn-danger">Reject
+    </button>
+    <button *ngIf="order.orderStatus == 'APPROVED'" (click)="prepareOrder(order.id, order)" type="button"
+            class="btn btn-secondary">Prepare
+    </button>
+    <button *ngIf="order.orderStatus == 'PREPARED'" (click)="waitOrder(order.id, order)" type="button"
+            class="btn btn-info">Wait
+    </button>
+    <button *ngIf="order.orderStatus == 'WAITING_FOR_DELIVERY'" (click)="deliverOrder(order.id, order)" type="button"
+            class="btn btn-light">Deliver
+    </button>
+    <button *ngIf="order.orderStatus == 'DELIVERED'" type="button" class="btn btn-success" disabled>Successfully
+      delivered
+    </button>
+  </tr>
+  </tbody>
 </table>
 
 <div class="d-flex justify-content-center">
-    <div class="row">
-        <div class="col-md-4">
-<ngb-pagination class="d-flex justify-content-center"
-  [(page)]="page"
-  [pageSize]="pageSize"
-  [collectionSize]="orders.length"></ngb-pagination>
+  <div class="row">
+    <div class="col-md-4">
+      <ngb-pagination class="d-flex justify-content-center"
+                      [(page)]="page"
+                      [pageSize]="pageSize"
+                      [collectionSize]="orders.length"></ngb-pagination>
 
+    </div>
+    <div class="col-md-8">
+      <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize">
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="15">15 items per page</option>
+        <option [ngValue]="20">20 items per page</option>
+      </select>
+    </div>
   </div>
-  <div class="col-md-8">
-  <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="pageSize">
-    <option [ngValue]="5">5 items per page</option>
-    <option [ngValue]="10">10 items per page</option>
-    <option [ngValue]="15">15 items per page</option>
-    <option [ngValue]="20">20 items per page</option>
-  </select>
-  </div>
-</div>

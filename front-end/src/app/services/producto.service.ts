@@ -10,30 +10,7 @@ console.log(cabecera);
 @Injectable({
   providedIn: 'root'
 })
-export class ProductoService {
+export class ProductService {
 
-  // productoUrl = 'http://localhost:8085/api/productos';
-
-  // constructor(private httpClient: HttpClient) { }
-
-  // public getList(): Observable<Producto[]> {
-  //   return this.httpClient.get<Producto[]>(this.productoUrl + '/lista', cabecera);
-  // }
-
-  // public getDetail(id: number): Observable<Producto> {
-  //   return this.httpClient.get<Producto>(this.productoUrl + `/detalle/${id}`, cabecera);
-  // }
-
-  // public createProduct(producto: Producto): Observable<any> {
-  //   return this.httpClient.post<any>(this.productoUrl + '/nuevo', producto, cabecera);
-  // }
-
-  // public editProduct(producto: Producto, id: number): Observable<any> {
-  //   return this.httpClient.put<any>(this.productoUrl + `/actualizar/${id}`, producto, cabecera);
-  // }
-
-  // public deleteProduct(id: number): Observable<any> {
-  //   return this.httpClient.delete<any>(this.productoUrl + `/borrar/${id}`, cabecera);
-  // }
 
 }

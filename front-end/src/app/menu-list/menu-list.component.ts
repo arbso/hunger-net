@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Menu } from '../models/menu/menu';
-import { MenuService } from './menu.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Menu} from '../models/menu/menu';
+import {MenuService} from './menu.service';
 
 @Component({
   selector: 'app-menu-list',
@@ -12,32 +12,22 @@ export class MenuListComponent implements OnInit {
 
 
   constructor(private menuService: MenuService,
-    private route: ActivatedRoute,
-    private router: Router) { }
-
-    id: number;
-    menus: Menu[];
-    menu: Menu;
-
-  ngOnInit(): void {
-        this.id = this.route.snapshot.params['id']
-        this.menuService.getMenu(this.id).subscribe(data =>{
-         this.menus = data; 
-    }, error =>console.log(error));
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
-  // private getMenus(id:number){
-  //   this.menuService.getMenu(id).subscribe(data =>{
-  //     this.menus = data;
-  //   })
-  // }
+  id: number;
+  menus: Menu[];
+  menu: Menu;
 
-  // getMenuById(id: number){
-  //   this.route.navigate(['menus',id]);
-  // }
+  ngOnInit(): void {
+    this.id = this.route.snapshot.params['id']
+    this.menuService.getMenu(this.id).subscribe(data => {
+      this.menus = data;
+    }, error => console.log(error));
+  }
 
-
-  getMenuById(id: number){
-    this.router.navigate(['menus',id]);
+  getMenuById(id: number) {
+    this.router.navigate(['menus', id]);
   }
 }

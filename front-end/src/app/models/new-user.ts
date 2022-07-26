@@ -1,4 +1,4 @@
-import { UserDetails } from "./user-details";
+import {UserDetails} from "./user-details";
 
 export class NewUser {
   username: string;
@@ -16,6 +16,6 @@ export class NewUser {
 
   setPhoneNumber(userDetails: UserDetails) {
     this.userDetails = userDetails;
-}
+  }
 
 }

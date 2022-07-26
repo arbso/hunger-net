@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Restaurant } from '../models/restaurant/restaurant';
-import { RestaurantService } from './restaurant.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {Restaurant} from '../models/restaurant/restaurant';
+import {RestaurantService} from './restaurant.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -9,26 +9,27 @@ import { RestaurantService } from './restaurant.service';
   styleUrls: ['./restaurant-list.component.css']
 })
 export class RestaurantListComponent implements OnInit {
-  page=1;
-  pageSize=5;
+  page = 1;
+  pageSize = 5;
   restaurants: Restaurant[];
   restaurant: Restaurant;
 
   constructor(private restaurantService: RestaurantService,
-    private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.getRestaurants();
   }
 
-  private getRestaurants(){
-    this.restaurantService.getRestaurantList().subscribe(data =>{
+  private getRestaurants() {
+    this.restaurantService.getRestaurantList().subscribe(data => {
       this.restaurants = data;
     })
   }
 
-  getRestaurantById(id: number){
-    this.router.navigate(['restaurants',id]);
+  getRestaurantById(id: number) {
+    this.router.navigate(['restaurants', id]);
   }
 
 

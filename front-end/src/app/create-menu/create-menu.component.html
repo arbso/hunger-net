@@ -1,38 +1,38 @@
 <h3>Create Menu</h3>
 
 <div class="container">
-    <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
+  <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
 
-      <div class="form-group">
-        <label for="menuName">Menu Name: </label>
-          <input type="text" name="menuName" class="form-control" [(ngModel)]="form.menuName" #menuName="ngModel"
-            autocomplete="off" required>
-      </div>
+    <div class="form-group">
+      <label for="menuName">Menu Name: </label>
+      <input type="text" name="menuName" class="form-control" [(ngModel)]="form.menuName" #menuName="ngModel"
+             autocomplete="off" required>
+    </div>
 
-      <div class="form-group">
-        <label for="menuDescription">Menu Description: </label>
-          <input type="text" name="menuDescription" class="form-control" [(ngModel)]="form.menuDescription"
-            #menuDescription="ngModel" autocomplete="off" required>
-      </div>
+    <div class="form-group">
+      <label for="menuDescription">Menu Description: </label>
+      <input type="text" name="menuDescription" class="form-control" [(ngModel)]="form.menuDescription"
+             #menuDescription="ngModel" autocomplete="off" required>
+    </div>
 
-      <div class="form-group">
-        <label for="menuOpeningTime">Opening Time: </label>
-          <input type="time" name="menuOpeningTime" class="form-control" [(ngModel)]="form.menuOpeningTime"
-            #menuOpeningTime="ngModel" autocomplete="off" required>
-      </div>
+    <div class="form-group">
+      <label for="menuOpeningTime">Opening Time: </label>
+      <input type="time" name="menuOpeningTime" class="form-control" [(ngModel)]="form.menuOpeningTime"
+             #menuOpeningTime="ngModel" autocomplete="off" required>
+    </div>
 
-      <div class="form-group">
-        <label for="menuClosingTime">Closing Time: </label>
-          <input type="time" name="menuClosingTime" class="form-control" [(ngModel)]="form.menuClosingTime"
-            #menuClosingTime="ngModel" autocomplete="off" required>
-      </div>
+    <div class="form-group">
+      <label for="menuClosingTime">Closing Time: </label>
+      <input type="time" name="menuClosingTime" class="form-control" [(ngModel)]="form.menuClosingTime"
+             #menuClosingTime="ngModel" autocomplete="off" required>
+    </div>
 
 
-    
+    <div class="form-group">
+      <button type="submit" class="btn btn-success" [disabled]="!f.valid"><i class="bi bi-plus-circle-fill"></i> Create
+        Menu
+      </button>
+      <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to create menu: {{errorMsg}}</div>
+    </div>
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-success" [disabled]="!f.valid"><i class="bi bi-plus-circle-fill"></i> Create Menu</button>
-        <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to create menu: {{errorMsg}}</div>
-      </div>
-
-    </form>
+  </form>

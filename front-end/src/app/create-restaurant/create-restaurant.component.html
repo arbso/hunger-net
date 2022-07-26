@@ -1,30 +1,32 @@
 <h3>Create Restaurant</h3>
 
 <div class="container">
-    <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
+  <form name="form" #f="ngForm" style="max-width: 250px;" (ngSubmit)="onSubmit()" novalidate>
 
-      <div class="form-group">
-        <label for="restaurantName">Restaurant Name: </label>
-          <input type="text" name="restaurantName" class="form-control" [(ngModel)]="form.restaurantName" #restaurantName="ngModel"
-            autocomplete="off" required>
-      </div>
+    <div class="form-group">
+      <label for="restaurantName">Restaurant Name: </label>
+      <input type="text" name="restaurantName" class="form-control" [(ngModel)]="form.restaurantName"
+             #restaurantName="ngModel"
+             autocomplete="off" required>
+    </div>
 
-      <div class="form-group">
-        <label for="restaurantPhone">Restaurant Phone: </label>
-          <input type="text" name="restaurantPhone" class="form-control" [(ngModel)]="form.restaurantPhone"
-            #restaurantPhone="ngModel" autocomplete="off" required>
-      </div>
+    <div class="form-group">
+      <label for="restaurantPhone">Restaurant Phone: </label>
+      <input type="text" name="restaurantPhone" class="form-control" [(ngModel)]="form.restaurantPhone"
+             #restaurantPhone="ngModel" autocomplete="off" required>
+    </div>
 
-      <div class="form-group">
-        <label for="restaurantEmail">Restaurant Email: </label>
-          <input type="text" name="restaurantEmail" class="form-control" [(ngModel)]="form.restaurantEmail"
-            #restaurantEmail="ngModel" autocomplete="off" required>
-      </div>
-    
+    <div class="form-group">
+      <label for="restaurantEmail">Restaurant Email: </label>
+      <input type="text" name="restaurantEmail" class="form-control" [(ngModel)]="form.restaurantEmail"
+             #restaurantEmail="ngModel" autocomplete="off" required>
+    </div>
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary mb-3" [disabled]="!f.valid">Create restaurant</button>
-        <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to create restaurant: {{errorMsg}}</div>
-      </div>
 
-    </form>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary mb-3" [disabled]="!f.valid">Create restaurant</button>
+      <div *ngIf="f.submitted && isRegisterFail" class="alert alert-danger">Failed to create
+        restaurant: {{errorMsg}}</div>
+    </div>
+
+  </form>

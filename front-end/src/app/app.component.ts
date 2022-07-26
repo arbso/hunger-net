@@ -1,6 +1,6 @@
-import { Router } from '@angular/router';
-import { TokenService } from './services/token.service';
-import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+import {TokenService} from './services/token.service';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,8 @@ export class AppComponent implements OnInit {
   info: any = {};
 
   constructor(private tokenService: TokenService,
-              private router: Router) {}
+              private router: Router) {
+  }
 
   ngOnInit() {
     this.getToken();
@@ -46,7 +47,6 @@ export class AppComponent implements OnInit {
 
     }
 
-    // this.username = this.tokenService.getUserName();
   }
 
   logOut(): void {
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
-  restaurants():void{
+  restaurants(): void {
     this.router.navigate(['restaurants']);
   }
 

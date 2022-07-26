@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUserName';
@@ -11,7 +11,8 @@ export class TokenService {
 
   roles: Array<string> = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   public setToken(token: string): void {
     window.sessionStorage.removeItem(TOKEN_KEY);
@@ -43,7 +44,6 @@ export class TokenService {
         this.roles.push(authority);
       });
     }
-    // console.log(this.roles);
     return this.roles;
   }
 

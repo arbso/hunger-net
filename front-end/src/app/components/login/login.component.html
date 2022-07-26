@@ -4,51 +4,53 @@
 
 <ng-template #loggedOut>
 
-<body>
-   <div class="container">
-      <div class="col-md-6 mx-auto text-center">
-         <div class="header-title">
-            <h1 class="wv-heading--title">
-               Login
-            </h1>
-         </div>
+  <body>
+  <div class="container">
+    <div class="col-md-6 mx-auto text-center">
+      <div class="header-title">
+        <h1 class="wv-heading--title">
+          Login
+        </h1>
       </div>
+    </div>
 
-      <div class="row">
-         <div class="col-md-4 mx-auto">
-            <div class="myform form ">
-               <form name="form" novalidate (ngSubmit)="onLogin()" #f="ngForm">
-                  <div class="form-group">
-                     <input class="form-control my-input" id="name" placeholder="Name" name="username"
-                        class="form-control my-input" type="text" [(ngModel)]="form.username" autocomplete="off" required>
-                  </div>
-
-                  <div class="form-group">
-                     <input type="password" name="password" [(ngModel)]="form.password"
-                        autocomplete="off" required  class="form-control my-input" placeholder="Password">
-                  </div>
-
-                  <div class="text-center ">
-                     <button type="submit" class=" btn btn-block send-button tx-tfm" [disabled]="!f.valid">Login</button>
-                  </div>
-                  <div class="col-md-12 ">
-                     <div class="login-or">
-                        <hr class="hr-or">
-                        <span class="span-or">or</span>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                    <div *ngIf="f.submitted && isLoginFail" class="alert alert-danger mt-3">Fail: {{errorMsg}}</div>
-                     <a class="btn btn-block g-button" routerLink="/register">
-                     <i class="fa fa-google"></i> Create Your Free Account
-                     </a>
-                  </div>
-                  <p class="small mt-3">By signing up, you are indicating that you have read and agree to the <a href="#" class="ps-hero__content__link">Terms of Use</a> and <a href="#">Privacy Policy</a>.
-                  </p>
-               </form>
+    <div class="row">
+      <div class="col-md-4 mx-auto">
+        <div class="myform form ">
+          <form name="form" novalidate (ngSubmit)="onLogin()" #f="ngForm">
+            <div class="form-group">
+              <input class="form-control my-input" id="name" placeholder="Name" name="username"
+                     class="form-control my-input" type="text" [(ngModel)]="form.username" autocomplete="off" required>
             </div>
-         </div>
+
+            <div class="form-group">
+              <input type="password" name="password" [(ngModel)]="form.password"
+                     autocomplete="off" required class="form-control my-input" placeholder="Password">
+            </div>
+
+            <div class="text-center ">
+              <button type="submit" class=" btn btn-block send-button tx-tfm" [disabled]="!f.valid">Login</button>
+            </div>
+            <div class="col-md-12 ">
+              <div class="login-or">
+                <hr class="hr-or">
+                <span class="span-or">or</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <div *ngIf="f.submitted && isLoginFail" class="alert alert-danger mt-3">Fail: {{errorMsg}}</div>
+              <a class="btn btn-block g-button" routerLink="/register">
+                <i class="fa fa-google"></i> Create Your Free Account
+              </a>
+            </div>
+            <p class="small mt-3">By signing up, you are indicating that you have read and agree to the <a href="#"
+                                                                                                           class="ps-hero__content__link">Terms of Use</a>
+              and <a href="#">Privacy Policy</a>.
+            </p>
+          </form>
+        </div>
       </div>
-   </div>
-</body>
+    </div>
+  </div>
+  </body>
 </ng-template>

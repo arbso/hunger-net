@@ -1,8 +1,8 @@
-import { LoginUser } from './../../models/login-user';
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
-import { TokenService } from 'src/app/services/token.service';
-import { Router } from '@angular/router';
+import {LoginUser} from './../../models/login-user';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from 'src/app/services/auth.service';
+import {TokenService} from 'src/app/services/token.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private tokenService: TokenService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   ngOnInit(): void {
     this.getToken();

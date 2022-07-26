@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MenuService } from '../menu-list/menu.service';
-import { Menu } from '../models/menu/menu';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {MenuService} from '../menu-list/menu.service';
+import {Menu} from '../models/menu/menu';
 
 @Component({
   selector: 'app-view-menu',
@@ -12,16 +12,17 @@ export class ViewMenuComponent implements OnInit {
 
   id: number;
   menu: Menu = new Menu();
+
   constructor(private menuService: MenuService,
-    private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id']
-    console.log(this.id)
-    this.menuService.getMenuDishes(this.id).subscribe(data =>{
-      this.menu = data; 
-    }, error =>console.log(error));
-    
+    this.menuService.getMenuDishes(this.id).subscribe(data => {
+      this.menu = data;
+    }, error => console.log(error));
+
   }
 
 }

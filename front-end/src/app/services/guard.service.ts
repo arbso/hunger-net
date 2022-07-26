@@ -1,6 +1,6 @@
-import { TokenService } from './token.service';
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import {TokenService} from './token.service';
+import {Injectable} from '@angular/core';
+import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,8 @@ export class GuardService implements CanActivate {
   realRol: string;
 
   constructor(private tokenService: TokenService,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const expectedRol = route.data.expectedRol;
