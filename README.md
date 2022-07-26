@@ -1,5 +1,5 @@
 # hunger-net
-Hunger Net, #Spring Boot and #Angular integration project for Lufthansa Industry Solutions.
+Hunger Net, `Spring Boot` and `Angular` integration project for Lufthansa Industry Solutions.
 
 ## Setup
 • Run `WebApiApplication` located in the webapp module <br />
