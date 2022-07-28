@@ -1,5 +1,7 @@
 package com.lufthansa.backend.exception;
 
+import lombok.Data;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 public class CustomException extends RuntimeException {

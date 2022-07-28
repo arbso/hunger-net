@@ -1,10 +1,15 @@
 package com.lufthansa.webapp.controller;
 
 import com.lufthansa.backend.dto.RestaurantDto;
+import com.lufthansa.backend.model.User;
+import com.lufthansa.backend.service.LoginService;
+import com.lufthansa.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import com.lufthansa.backend.service.RestaurantService;
 
@@ -16,8 +21,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestaurantController {
 
+    private final LoginService loginService;
     private final RestaurantService restaurantService;
-
+    private final UserService userService;
     @PostMapping("/add")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER')")
     public ResponseEntity<RestaurantDto> add(@RequestBody RestaurantDto restaurantDto) {
@@ -36,6 +42,7 @@ public class RestaurantController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER')")
     public ResponseEntity<List<RestaurantDto>> findRestaurantsByUsername(@PathVariable String username) {
         List<RestaurantDto> restaurantDtos = restaurantService.findRestaurantsByUserId(username);
+
         if (restaurantDtos.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

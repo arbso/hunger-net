@@ -1,17 +1,25 @@
 package com.lufthansa.backend.service;
 
 
+import com.lufthansa.backend.exception.CustomException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
+import com.lufthansa.backend.exception.UnauthorizedException;
 import com.lufthansa.backend.model.Menu;
 import com.lufthansa.backend.model.Restaurant;
+import com.lufthansa.backend.model.User;
 import com.lufthansa.backend.repository.MenuRepository;
 import com.lufthansa.backend.repository.RestaurantRepository;
 import com.lufthansa.backend.converter.DtoConversion;
 import com.lufthansa.backend.dto.MenuDto;
 import com.lufthansa.backend.dto.RestaurantDto;
+import com.lufthansa.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,7 +30,7 @@ public class RestaurantService {
 
     private static final Logger logger = LogManager.getLogger(RestaurantService.class);
     private final RestaurantRepository restaurantRepository;
-
+    private final UserRepository userRepository;
     private final DtoConversion dtoConversion;
     private final MenuRepository menuRepository;
 
@@ -74,6 +82,16 @@ public class RestaurantService {
 
     public List<RestaurantDto> findRestaurantsByUserId(String username) {
         logger.info("Retrieving restaurants by User Id");
+        List<Restaurant> restaurants = restaurantRepository.findRestaurantsByUserId(username);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User user = userRepository.findByUsername(authUsername);
+        Integer restaurantId = restaurants.get(0).getId();
+        if (user.getRestaurantId() != restaurantId){
+            logger.error("You do not have access to this restaurant.");
+            throw new UnauthorizedException("You do not have access to this restaurant");
+        }
         return restaurantRepository.findRestaurantsByUserId(username).stream().map(dtoConversion::convertRestaurant).collect(Collectors.toList());
     }
 

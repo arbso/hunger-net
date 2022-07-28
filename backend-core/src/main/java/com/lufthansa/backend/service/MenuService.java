@@ -1,17 +1,25 @@
 package com.lufthansa.backend.service;
 
 
+import com.lufthansa.backend.exception.EntityNotFoundException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
+import com.lufthansa.backend.exception.UnauthorizedException;
 import com.lufthansa.backend.model.Dish;
 import com.lufthansa.backend.model.Menu;
+import com.lufthansa.backend.model.Restaurant;
+import com.lufthansa.backend.model.User;
 import com.lufthansa.backend.repository.DishRepository;
 import com.lufthansa.backend.repository.MenuRepository;
 import com.lufthansa.backend.converter.DtoConversion;
 import com.lufthansa.backend.dto.DishDto;
 import com.lufthansa.backend.dto.MenuDto;
+import com.lufthansa.backend.repository.RestaurantRepository;
+import com.lufthansa.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +35,8 @@ public class MenuService {
     private final DtoConversion dtoConversion;
     private final MenuRepository menuRepository;
 
+    private final RestaurantRepository restaurantRepository;
+    private final UserRepository userRepository;
     private final DishRepository dishRepository;
 
     public MenuDto save(MenuDto menuDto) {
@@ -64,9 +74,26 @@ public class MenuService {
     }
 
     public MenuDto update(MenuDto menuDto, Integer id) {
-        logger.info("Updating restaurant.");
         Optional<Menu> menuOptional = menuRepository.findById(id);
         Menu menu = menuOptional.get();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User user = userRepository.findByUsername(authUsername);
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(menu.getRestaurantId());
+        Restaurant restaurant = restaurantOptional.get();
+
+        if(user == null){
+            logger.error("This user does not exist");
+            throw new EntityNotFoundException("This user does not exist");
+        }
+
+        if (user.getRestaurantId() != restaurant.getId()){
+            logger.error("You do not have access to edit this menu.");
+            throw new UnauthorizedException("You do not have access to edit this menu");
+        }
+        logger.info("Updating restaurant.");
+
         menu.setMenuName(menuDto.getMenuName());
         menu.setRestaurantName(menuDto.getRestaurantName());
         menu.setMenuDescription(menuDto.getMenuDescription());
@@ -93,6 +120,14 @@ public class MenuService {
 
     public List<MenuDto> findAllByRestaurantId(Integer id) {
         logger.info("Getting menus by restaurant id");
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User user = userRepository.findByUsername(authUsername);
+        if (user.getRestaurantId() != id){
+            logger.error("You do not have access to this restaurant.");
+            throw new UnauthorizedException("You do not have access to these menus");
+        }
         return menuRepository.getMenusByRestaurantId(id).stream().map(dtoConversion::convertMenu).collect(Collectors.toList());
     }
 
