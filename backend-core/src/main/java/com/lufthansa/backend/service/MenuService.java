@@ -1,6 +1,7 @@
 package com.lufthansa.backend.service;
 
 
+import com.lufthansa.backend.exception.CustomException;
 import com.lufthansa.backend.exception.EntityNotFoundException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
 import com.lufthansa.backend.exception.UnauthorizedException;
@@ -15,9 +16,13 @@ import com.lufthansa.backend.dto.DishDto;
 import com.lufthansa.backend.dto.MenuDto;
 import com.lufthansa.backend.repository.RestaurantRepository;
 import com.lufthansa.backend.repository.UserRepository;
+//import com.lufthansa.backend.util.Interval;
+import com.lufthansa.backend.util.Interval;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -39,6 +44,9 @@ public class MenuService {
     private final UserRepository userRepository;
     private final DishRepository dishRepository;
 
+    @Autowired
+    private final Interval interval;
+
     public MenuDto save(MenuDto menuDto) {
         Menu menu = new Menu();
         menu.setMenuName(menuDto.getMenuName());
@@ -47,11 +55,39 @@ public class MenuService {
         menu.setMenuClosingTime(menuDto.getMenuClosingTime());
         menu.setRestaurantId(menuDto.getRestaurantId());
         menu.setRestaurantName(menuDto.getRestaurantName());
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(menuDto.getRestaurantId());
+        Restaurant restaurant = restaurantOptional.get();
+
+        Set<Menu> menuList = restaurant.getMenus();
+        for (Menu menuClash : restaurant.getMenus()) {
+//            Optional<Menu> menuOptional = menuRepository.findById(menuClash.getId());
+            if (interval.overlaps(menu.getMenuOpeningTime(),
+                                    menu.getMenuClosingTime(),
+                                            menuClash.getMenuOpeningTime(),
+                                            menuClash.getMenuClosingTime())){
+                logger.warn("Menu cannot be created. Times overlap with a different menu.");
+                throw new CustomException("Menu cannot be created. Times overlap with a different menu.", HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
+
         logger.info("Saving menu.");
         return dtoConversion.convertMenu(menuRepository.save(menu));
     }
 
     public void deleteById(Integer id) {
+        Optional<Menu> menuOptional = menuRepository.findById(id);
+        Menu menu = menuOptional.get();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User user = userRepository.findByUsername(authUsername);
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(menu.getRestaurantId());
+        Restaurant restaurant = restaurantOptional.get();
+
+        if (user.getRestaurantId() != restaurant.getId()){
+            logger.error("You do not have access to edit this menu.");
+            throw new UnauthorizedException("You do not have access to edit this menu");
+        }
         logger.info("Deleting menu.");
         menuRepository.deleteById(id);
     }
@@ -83,6 +119,17 @@ public class MenuService {
         Optional<Restaurant> restaurantOptional = restaurantRepository.findById(menu.getRestaurantId());
         Restaurant restaurant = restaurantOptional.get();
 
+        Set<Menu> menuList = restaurant.getMenus();
+        for (Menu menuClash : restaurant.getMenus()) {
+//            Optional<Menu> menuOptional = menuRepository.findById(menuClash.getId());
+            if (interval.overlaps(menuDto.getMenuOpeningTime(),
+                    menuDto.getMenuClosingTime(),
+                    menuClash.getMenuOpeningTime(),
+                    menuClash.getMenuClosingTime())){
+                logger.warn("Menu cannot be created. Times overlap with a different menu.");
+                throw new CustomException("Menu cannot be created. Times overlap with a different menu.", HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
         if(user == null){
             logger.error("This user does not exist");
             throw new EntityNotFoundException("This user does not exist");
