@@ -153,6 +153,27 @@ public class MenuService {
     }
 
     public MenuDto update(MenuDto menuDto, Integer id) {
+
+        if(menuDto.getMenuName()==null){
+            logger.warn("Menu name cannot be null!");
+            throw new EmptyFieldException("Menu name cannot be empty!");
+        }
+
+        if(menuDto.getMenuDescription()==null){
+            logger.warn("Menu description cannot be null!");
+            throw new EmptyFieldException("Menu description cannot be empty!");
+        }
+
+        if(menuDto.getMenuOpeningTime()==null){
+            logger.warn("Menu opening time cannot be null!");
+            throw new EmptyFieldException("Menu opening time cannot be empty!");
+        }
+
+        if(menuDto.getMenuClosingTime()==null){
+            logger.warn("Menu closing time cannot be null!");
+            throw new EmptyFieldException("Menu closing time cannot be empty!");
+        }
+
         Optional<Menu> menuOptional = menuRepository.findById(id);
         if(menuOptional.isEmpty()){
             throw new EntityNotFoundException("ID: "+id+ " does not exist. Try a different one.");

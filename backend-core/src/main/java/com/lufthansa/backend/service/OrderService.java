@@ -177,6 +177,25 @@ public class OrderService {
 
     public void deleteById(Integer id) {
         logger.info("Deleting order");
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        Order order = orderOptional.get();
+        if(orderOptional.isEmpty()){
+            throw new EntityNotFoundException("Order ID: "+id+ " does not exist. Try a different one.");
+        }
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User userAuth = userRepository.findByUsername(authUsername);
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(order.getRestaurantId());
+        if(restaurantOptional.isEmpty()){
+            throw new EntityNotFoundException("Restaurant ID: "+id+ " does not exist. Try a different one.");
+        }
+        Restaurant restaurant = restaurantOptional.get();
+        if (userAuth.getRestaurantId() != restaurant.getId()){
+            logger.error("You do not have access to delete this order.");
+            throw new UnauthorizedException("You do not have access to delete this order.");
+        }
         orderRepository.deleteById(id);
     }
 
@@ -188,7 +207,6 @@ public class OrderService {
     }
 
     public OrderDto findById(Integer id) {
-        logger.info("Finding order");
         return dtoConversion.convertOrder(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find order with id: " + id)));
 
     }
@@ -233,28 +251,6 @@ public class OrderService {
                 .map(dtoConversion::convertOrder)
                 .collect(Collectors.toList());
     }
-
-//    public Order updateOrderStatus(OrderDto orderDto, Integer id, Integer statusNumber){
-//
-//        OrderDto orderDtoT = orderRepository.findOrderById(id);
-//
-//        switch(statusNumber){
-//            case 0:
-//                order.setOrderStatus(OrderStatus.PLACED);
-//            case 1:
-//                order.setOrderStatus(OrderStatus.APPROVED);
-//            case 2:
-//                order.setOrderStatus(OrderStatus.PREPARED);
-//            case 3:
-//                order.setOrderStatus(OrderStatus.WAITING_FOR_DELIVERY);
-//            case 4:
-//                order.setOrderStatus(OrderStatus.DELIVERED);
-//            case 5:
-//                order.setOrderStatus(OrderStatus.REJECTED);
-//        }
-//        return this.update(order, orderId);
-//    }
-
 
 
 }

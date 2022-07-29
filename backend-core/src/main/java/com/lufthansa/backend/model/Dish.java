@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "dish")
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE Dish SET active = false WHERE user_id=?")
+@SQLDelete(sql = "UPDATE Dish SET active = false WHERE dish_id=?")
 @Where(clause = "active=true")
 public class Dish {
 

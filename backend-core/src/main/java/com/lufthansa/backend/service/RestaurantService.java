@@ -61,6 +61,22 @@ public class RestaurantService {
     }
 
     public RestaurantDto update(RestaurantDto restaurantDto, Integer id) {
+
+        if(restaurantDto.getRestaurantName()==null){
+            logger.warn("Restaurant name cannot be null!");
+            throw new EmptyFieldException("Restaurant name cannot be empty!");
+        }
+
+        if(restaurantDto.getRestaurantEmail()==null){
+            logger.warn("Restaurant email cannot be null!");
+            throw new EmptyFieldException("Restaurant email cannot be empty!");
+        }
+
+        if(restaurantDto.getRestaurantPhone()==null){
+            logger.warn("Restaurant phone cannot be null!");
+            throw new EmptyFieldException("Restaurant phone cannot be empty!");
+        }
+
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         String authUsername = userDetails.getUsername();

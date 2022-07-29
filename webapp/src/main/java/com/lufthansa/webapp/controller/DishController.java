@@ -35,8 +35,8 @@ public class DishController {
     @DeleteMapping(value = "/delete/{id}")
     @PreAuthorize("hasAnyRole('ROLE_RESTAURANT_MANAGER')")
 //  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable Integer id) {
-        dishService.deleteById(id);
+    public ResponseEntity<Dish> delete(@PathVariable Integer id) {
+        return ResponseEntity.ok(dishService.deleteById(id));
     }
 
     @GetMapping

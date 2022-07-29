@@ -3,6 +3,8 @@ package com.lufthansa.backend.model;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -11,6 +13,8 @@ import java.sql.Date;
 @Table(name = "orders")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE Menu SET active = false WHERE orders_id=?")
+@Where(clause = "active=true")
 public class Order {
 
     @Id
@@ -54,5 +58,7 @@ public class Order {
     @JoinColumn(name="restaurant_id")
     private Integer restaurantId;
 
+    @Column(name = "active", columnDefinition = "boolean default true")
+    private boolean active = Boolean.TRUE;
 
 }
