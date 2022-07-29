@@ -2,9 +2,11 @@ package com.lufthansa.backend.service;
 
 
 import com.lufthansa.backend.exception.CustomException;
+import com.lufthansa.backend.exception.EmptyFieldException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
 import com.lufthansa.backend.model.Role;
 import com.lufthansa.backend.model.User;
+import com.lufthansa.backend.model.UserDetails;
 import com.lufthansa.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -27,17 +29,45 @@ public class UserService {
 
 
     public User save(User user) {
+        Set<UserDetails> ud = user.getUserDetails();
+        if(user.getUsername()==null){
+            logger.warn("Username cannot be null!");
+            throw new EmptyFieldException("Password cannot be empty!");
+        }
+
+        if(user.getEmail()==null){
+            logger.warn("Email cannot be null!");
+            throw new EmptyFieldException("Empty cannot be empty!");
+        }
+
+        if(user.getPassword()==null){
+            logger.warn("Password cannot be null!");
+            throw new EmptyFieldException("Password cannot be empty!");
+        }
+
+        if(ud.iterator().next().getFirstName()==null
+                || ud.iterator().next().getLastName()==null
+                || ud.iterator().next().getPhoneNumber()==null){
+            logger.warn("First Name, Last Name, or your Phone Number cannot be null!");
+            throw new EmptyFieldException("Password cannot be empty!");
+        }
+
+        if(userRepository.existsById(user.getId())){
+            userRepository.save(user);
+        }
+
         if (!userRepository.existsByUsername(user.getUsername())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
-//            user.setActive(true);
             logger.info("Saving user.");
             userRepository.save(user);
             return user;
         } else {
             logger.warn("Username is already in use.");
-            throw new CustomException("Username is already in use", HttpStatus.NOT_ACCEPTABLE);
+            throw new EmptyFieldException("Username is already in use.");
         }
+
+
 
     }
 
@@ -51,7 +81,7 @@ public class UserService {
         userUpdate.setRestaurantId(user.getRestaurantId());
 
         logger.info("Updating user.");
-        return userRepository.save(userUpdate);
+        return this.save(userUpdate);
     }
 
 

@@ -1,10 +1,7 @@
 package com.lufthansa.backend.service;
 
 
-import com.lufthansa.backend.exception.CustomException;
-import com.lufthansa.backend.exception.EntityNotFoundException;
-import com.lufthansa.backend.exception.ResourceNotFoundException;
-import com.lufthansa.backend.exception.UnauthorizedException;
+import com.lufthansa.backend.exception.*;
 import com.lufthansa.backend.model.Dish;
 import com.lufthansa.backend.model.Menu;
 import com.lufthansa.backend.model.Restaurant;
@@ -48,6 +45,27 @@ public class MenuService {
     private final Interval interval;
 
     public MenuDto save(MenuDto menuDto) {
+
+        if(menuDto.getMenuName()==null){
+            logger.warn("Menu name cannot be null!");
+            throw new EmptyFieldException("Menu name cannot be empty!");
+        }
+
+        if(menuDto.getMenuDescription()==null){
+            logger.warn("Menu description cannot be null!");
+            throw new EmptyFieldException("Menu description cannot be empty!");
+        }
+
+        if(menuDto.getMenuOpeningTime()==null){
+            logger.warn("Menu opening time cannot be null!");
+            throw new EmptyFieldException("Menu opening time cannot be empty!");
+        }
+
+        if(menuDto.getMenuClosingTime()==null){
+            logger.warn("Menu closing time cannot be null!");
+            throw new EmptyFieldException("Menu closing time cannot be empty!");
+        }
+
         Menu menu = new Menu();
         menu.setMenuName(menuDto.getMenuName());
         menu.setMenuDescription(menuDto.getMenuDescription());
@@ -62,9 +80,9 @@ public class MenuService {
         for (Menu menuClash : restaurant.getMenus()) {
 //            Optional<Menu> menuOptional = menuRepository.findById(menuClash.getId());
             if (interval.overlaps(menu.getMenuOpeningTime(),
-                                    menu.getMenuClosingTime(),
-                                            menuClash.getMenuOpeningTime(),
-                                            menuClash.getMenuClosingTime())){
+                                  menu.getMenuClosingTime(),
+                                  menuClash.getMenuOpeningTime(),
+                                  menuClash.getMenuClosingTime())){
                 logger.warn("Menu cannot be created. Times overlap with a different menu.");
                 throw new CustomException("Menu cannot be created. Times overlap with a different menu.", HttpStatus.NOT_ACCEPTABLE);
             }
@@ -111,12 +129,18 @@ public class MenuService {
 
     public MenuDto update(MenuDto menuDto, Integer id) {
         Optional<Menu> menuOptional = menuRepository.findById(id);
+        if(menuOptional.isEmpty()){
+            throw new EntityNotFoundException("ID: "+id+ " does not exist. Try a different one.");
+        }
         Menu menu = menuOptional.get();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         String authUsername = userDetails.getUsername();
         User user = userRepository.findByUsername(authUsername);
         Optional<Restaurant> restaurantOptional = restaurantRepository.findById(menu.getRestaurantId());
+        if(restaurantOptional.isEmpty()){
+            throw new EntityNotFoundException("Restaurant ID: "+id+ " does not exist. Try a different one.");
+        }
         Restaurant restaurant = restaurantOptional.get();
 
         Set<Menu> menuList = restaurant.getMenus();

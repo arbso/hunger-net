@@ -2,6 +2,7 @@ package com.lufthansa.backend.service;
 
 
 import com.lufthansa.backend.exception.CustomException;
+import com.lufthansa.backend.exception.EmptyFieldException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
 import com.lufthansa.backend.exception.UnauthorizedException;
 import com.lufthansa.backend.model.Menu;
@@ -35,6 +36,22 @@ public class RestaurantService {
     private final MenuRepository menuRepository;
 
     public RestaurantDto save(RestaurantDto restaurantDto) {
+
+        if(restaurantDto.getRestaurantName()==null){
+            logger.warn("Restaurant name cannot be null!");
+            throw new EmptyFieldException("Restaurant name cannot be empty!");
+        }
+
+        if(restaurantDto.getRestaurantEmail()==null){
+            logger.warn("Restaurant email cannot be null!");
+            throw new EmptyFieldException("Restaurant email cannot be empty!");
+        }
+
+        if(restaurantDto.getRestaurantPhone()==null){
+            logger.warn("Restaurant phone cannot be null!");
+            throw new EmptyFieldException("Restaurant phone cannot be empty!");
+        }
+
         Restaurant restaurant = new Restaurant();
         restaurant.setRestaurantName(restaurantDto.getRestaurantName());
         restaurant.setRestaurantEmail(restaurantDto.getRestaurantEmail());
@@ -44,9 +61,19 @@ public class RestaurantService {
     }
 
     public RestaurantDto update(RestaurantDto restaurantDto, Integer id) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User user = userRepository.findByUsername(authUsername);
+
 
         Optional<Restaurant> restaurantOptional = restaurantRepository.findById(id);
         Restaurant restaurant = restaurantOptional.get();
+        if (user.getRestaurantId() != restaurant.getId()){
+            logger.error("You do not have access to edit this restaurant.");
+            throw new UnauthorizedException("You do not have access to edit this restaurant");
+        }
+
         restaurant.setRestaurantName(restaurantDto.getRestaurantName());
         restaurant.setRestaurantEmail(restaurantDto.getRestaurantEmail());
         restaurant.setRestaurantPhone(restaurantDto.getRestaurantPhone());

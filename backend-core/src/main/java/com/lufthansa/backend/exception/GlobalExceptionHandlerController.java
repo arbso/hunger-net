@@ -72,4 +72,13 @@ public class GlobalExceptionHandlerController {
         return new ResponseEntity<ErrorMessage>(message, HttpStatus.UNPROCESSABLE_ENTITY);
 //        res.sendError(HttpStatus.UNPROCESSABLE_ENTITY.value(), "This entity does not exist.");
     }
+
+    @ExceptionHandler(EmptyFieldException.class)
+    public ResponseEntity<ErrorMessage> emptyFieldException(EmptyFieldException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.NOT_ACCEPTABLE.value(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_ACCEPTABLE);
+    }
 }

@@ -1,11 +1,14 @@
 package com.lufthansa.backend.service;
 
 
+import com.lufthansa.backend.exception.EmptyFieldException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
 import com.lufthansa.backend.model.Dish;
 import com.lufthansa.backend.repository.DishRepository;
 import com.lufthansa.backend.converter.DtoConversion;
 import com.lufthansa.backend.dto.DishDto;
+import com.lufthansa.backend.repository.MenuRepository;
+import com.lufthansa.backend.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,10 +24,28 @@ public class DishService {
 
     private static final Logger logger = LogManager.getLogger(DishService.class);
 
+    private final MenuRepository menuRepository;
+    private final RestaurantRepository restaurantRepository;
     private final DtoConversion dtoConversion;
     private final DishRepository dishRepository;
 
     public DishDto save(DishDto dishDto) {
+
+        if(dishDto.getDishName()==null){
+            logger.warn("Dish name cannot be null!");
+            throw new EmptyFieldException("Dish name cannot be null!");
+        }
+
+        if(dishDto.getDishPrice()==null){
+            logger.warn("Dish price cannot be null!");
+            throw new EmptyFieldException("Dish price cannot be empty!");
+        }
+
+        if(dishDto.getDishDescription()==null){
+            logger.warn("Dish description cannot be null!");
+            throw new EmptyFieldException("Dish description cannot be empty!");
+        }
+
         Dish dish = new Dish();
         dish.setDishName(dishDto.getDishName());
         dish.setDishDescription(dishDto.getDishDescription());
