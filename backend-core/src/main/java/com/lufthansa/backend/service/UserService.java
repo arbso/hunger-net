@@ -1,7 +1,7 @@
 package com.lufthansa.backend.service;
 
 
-import com.lufthansa.backend.exception.CustomException;
+
 import com.lufthansa.backend.exception.EmptyFieldException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
 import com.lufthansa.backend.model.Role;

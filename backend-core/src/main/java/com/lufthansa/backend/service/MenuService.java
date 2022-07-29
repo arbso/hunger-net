@@ -85,7 +85,7 @@ public class MenuService {
                                   menuClash.getMenuOpeningTime(),
                                   menuClash.getMenuClosingTime())){
                 logger.warn("Menu cannot be created. Times overlap with a different menu.");
-                throw new CustomException("Menu cannot be created. Times overlap with a different menu.", HttpStatus.NOT_ACCEPTABLE);
+                throw new EmptyFieldException("Menu cannot be created. Times overlap with a different menu.");
             }
         }
 
@@ -197,7 +197,7 @@ public class MenuService {
                     menuClash.getMenuOpeningTime(),
                     menuClash.getMenuClosingTime())){
                 logger.warn("Menu cannot be created. Times overlap with a different menu.");
-                throw new CustomException("Menu cannot be created. Times overlap with a different menu.", HttpStatus.NOT_ACCEPTABLE);
+                throw new EmptyFieldException("Menu cannot be created. Times overlap with a different menu.");
             }
         }
         if(user == null){

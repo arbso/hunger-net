@@ -1,6 +1,7 @@
 package com.lufthansa.backend.service;
 
-import com.lufthansa.backend.exception.CustomException;
+
+import com.lufthansa.backend.exception.EntityNotFoundException;
 import com.lufthansa.backend.model.AuthJWT;
 import com.lufthansa.backend.repository.UserRepository;
 import com.lufthansa.backend.security.JwtTokenProvider;
@@ -40,7 +41,7 @@ public class LoginService {
 
         } catch (AuthenticationException e) {
             logger.warn("The provided username or password is invalid.");
-            throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new EntityNotFoundException("Invalid username/password supplied");
         }
     }
 }
