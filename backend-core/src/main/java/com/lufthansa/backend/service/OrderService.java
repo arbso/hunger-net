@@ -1,5 +1,6 @@
 package com.lufthansa.backend.service;
 
+import com.lufthansa.backend.exception.EmptyFieldException;
 import com.lufthansa.backend.exception.EntityNotFoundException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
 import com.lufthansa.backend.exception.UnauthorizedException;
@@ -39,8 +40,9 @@ public class OrderService {
 
     private final RestaurantRepository restaurantRepository;
 
-    public OrderDto update(OrderDto orderDto, Integer id) {
+    public OrderDto update(Integer id, Integer statusNumber) {
         Optional<Order> orderOptional = orderRepository.findById(id);
+        Order order = orderOptional.get();
         if(orderOptional.isEmpty()){
             throw new EntityNotFoundException("Order ID: "+id+ " does not exist. Try a different one.");
         }
@@ -49,35 +51,114 @@ public class OrderService {
                 .getPrincipal();
         String authUsername = userDetails.getUsername();
         User userAuth = userRepository.findByUsername(authUsername);
-        Optional<User> userOptional = userRepository.findById(id);
-        User user = userOptional.get();
-        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(orderDto.getRestaurantId());
+        Optional<Restaurant> restaurantOptional = restaurantRepository.findById(order.getRestaurantId());
         if(restaurantOptional.isEmpty()){
             throw new EntityNotFoundException("Restaurant ID: "+id+ " does not exist. Try a different one.");
         }
         Restaurant restaurant = restaurantOptional.get();
-        if (user.getRestaurantId() != restaurant.getId()){
+        if (userAuth.getRestaurantId() != restaurant.getId()){
             logger.error("You do not have access to update this order.");
             throw new UnauthorizedException("You do not have access to update this order.");
         }
 
-        Order order = orderOptional.get();
-        order.setOrderDate(orderDto.getOrderDate());
-        order.setOrderAddress(orderDto.getOrderAddress());
-        order.setDish(orderDto.getDish());
-        order.setDishName(orderDto.getDishName());
-        order.setRestaurantName(orderDto.getRestaurantName());
-        order.setRestaurantId(orderDto.getRestaurantId());
-        order.setQuantity(orderDto.getQuantity());
-        order.setTotalPrice(orderDto.getTotalPrice());
-        order.setUserId(orderDto.getUserId());
-        order.setOrderNumber(orderDto.getOrderNumber());
-        order.setOrderStatus(orderDto.getOrderStatus());
+        switch(statusNumber){
+            case 1:
+                if(order.getOrderStatus()!=OrderStatus.PLACED){
+                    logger.warn("Order status cannot be set as 'Approved' because it is not on 'Placed' status.");
+                    throw new EmptyFieldException("Order status cannot be set as 'Approved' because it is not on 'Placed' status.");
+                }
+                order.setOrderStatus(OrderStatus.APPROVED);
+                break;
+            case 2:
+                if(order.getOrderStatus()!=OrderStatus.APPROVED){
+                    logger.warn("Order status cannot be set as 'Prepared' because it is not on 'Approved' status.");
+                    throw new EmptyFieldException("Order status cannot be set as 'Prepared' because it is not on 'Approved' status.");
+                }
+                order.setOrderStatus(OrderStatus.PREPARED);
+                break;
+            case 3:
+                if(order.getOrderStatus()!=OrderStatus.PREPARED){
+                    logger.warn("Order status cannot be set as 'WOD' because it is not on 'Prepared' status.");
+                    throw new EmptyFieldException("Order status cannot be set as 'WOD' because it is not on 'Prepared' status.");
+                }
+                order.setOrderStatus(OrderStatus.WAITING_FOR_DELIVERY);
+                break;
+            case 4:
+                if(order.getOrderStatus()!=OrderStatus.WAITING_FOR_DELIVERY){
+                    logger.warn("Order status cannot be set as 'Delivered' because it is not on 'WOD' status.");
+                    throw new EmptyFieldException("Order status cannot be set as 'Delivered' because it is not on 'WOD' status.");
+                }
+                order.setOrderStatus(OrderStatus.DELIVERED);
+                break;
+            case 5:
+                if(order.getOrderStatus()!=OrderStatus.PLACED){
+                    logger.warn("Order status cannot be set as 'Rejected' because it is not on 'Placed' status.");
+                    throw new EmptyFieldException("Order status cannot be set as 'Rejected' because it is not on 'Placed' status.");
+                }
+                order.setOrderStatus(OrderStatus.REJECTED);
+                break;
+        }
+
+
+//        order.setOrderDate(orderDto.getOrderDate());
+//        order.setOrderAddress(orderDto.getOrderAddress());
+//        order.setDish(orderDto.getDish());
+//        order.setDishName(orderDto.getDishName());
+//        order.setRestaurantName(orderDto.getRestaurantName());
+//        order.setRestaurantId(orderDto.getRestaurantId());
+//        order.setQuantity(orderDto.getQuantity());
+//        order.setTotalPrice(orderDto.getTotalPrice());
+//        order.setUserId(orderDto.getUserId());
+//        order.setOrderNumber(orderDto.getOrderNumber());
+//        order.setOrderStatus(order.getOrderStatus());
         logger.info("Updating order.");
         return dtoConversion.convertOrder(orderRepository.save(order));
     }
 
     public OrderDto save(OrderDto orderDto) {
+
+        if(orderDto.getOrderAddress()==null){
+            logger.warn("Order Address cannot be null.");
+            throw new EmptyFieldException("Order Address cannot be null.");
+        }
+
+        if(orderDto.getDish()==null){
+            logger.warn("Order Dish cannot be null.");
+            throw new EmptyFieldException("Order Dish cannot be null.");
+        }
+
+        if(orderDto.getRestaurantId()==null){
+            logger.warn("Restaurant ID cannot be null.");
+            throw new EmptyFieldException("Restaurant ID cannot be null.");
+        }
+
+        if(orderDto.getDishName()==null){
+            logger.warn("Dish Name cannot be null.");
+            throw new EmptyFieldException("Dish Name cannot be null.");
+        }
+
+        if(orderDto.getQuantity()==null){
+            logger.warn("Quantity cannot be null.");
+            throw new EmptyFieldException("Quantity cannot be null.");
+        }
+
+        if(orderDto.getRestaurantName()==null){
+            logger.warn("Restaurant Name cannot be null.");
+            throw new EmptyFieldException("Restaurant Name cannot be null.");
+        }
+
+        if(orderDto.getTotalPrice()==0){
+            logger.warn("Total Price cannot be 0.");
+            throw new EmptyFieldException("Total Price cannot be 0.");
+        }
+
+        if(orderDto.getUserId()==null){
+            logger.warn("User ID cannot be null.");
+            throw new EmptyFieldException("User ID cannot be null.");
+        }
+
+
+
         Order order = new Order();
         order.setOrderDate(orderDto.getOrderDate());
         order.setOrderAddress(orderDto.getOrderAddress());
@@ -152,6 +233,27 @@ public class OrderService {
                 .map(dtoConversion::convertOrder)
                 .collect(Collectors.toList());
     }
+
+//    public Order updateOrderStatus(OrderDto orderDto, Integer id, Integer statusNumber){
+//
+//        OrderDto orderDtoT = orderRepository.findOrderById(id);
+//
+//        switch(statusNumber){
+//            case 0:
+//                order.setOrderStatus(OrderStatus.PLACED);
+//            case 1:
+//                order.setOrderStatus(OrderStatus.APPROVED);
+//            case 2:
+//                order.setOrderStatus(OrderStatus.PREPARED);
+//            case 3:
+//                order.setOrderStatus(OrderStatus.WAITING_FOR_DELIVERY);
+//            case 4:
+//                order.setOrderStatus(OrderStatus.DELIVERED);
+//            case 5:
+//                order.setOrderStatus(OrderStatus.REJECTED);
+//        }
+//        return this.update(order, orderId);
+//    }
 
 
 

@@ -27,19 +27,19 @@
     <td>{{ order.totalPrice }}</td>
     <td>{{ order.orderAddress }}</td>
     <td>{{ order.orderStatus }}</td>
-    <button *ngIf="order.orderStatus == 'PLACED'" (click)="approveOrder(order.id, order)" type="button"
+    <button *ngIf="order.orderStatus == 'PLACED'" (click)="updateOrderStatus(order.id, 1)" type="button"
             class="btn btn-success">Approve
     </button>
-    <button *ngIf="order.orderStatus == 'PLACED'" (click)="rejectOrder(order.id, order)" type="button"
+    <button *ngIf="order.orderStatus == 'PLACED'" (click)="updateOrderStatus(order.id, 5)" type="button"
             class="btn btn-danger">Reject
     </button>
-    <button *ngIf="order.orderStatus == 'APPROVED'" (click)="prepareOrder(order.id, order)" type="button"
+    <button *ngIf="order.orderStatus == 'APPROVED'" (click)="updateOrderStatus(order.id, 2)" type="button"
             class="btn btn-secondary">Prepare
     </button>
-    <button *ngIf="order.orderStatus == 'PREPARED'" (click)="waitOrder(order.id, order)" type="button"
+    <button *ngIf="order.orderStatus == 'PREPARED'" (click)="updateOrderStatus(order.id, 3)" type="button"
             class="btn btn-info">Wait
     </button>
-    <button *ngIf="order.orderStatus == 'WAITING_FOR_DELIVERY'" (click)="deliverOrder(order.id, order)" type="button"
+    <button *ngIf="order.orderStatus == 'WAITING_FOR_DELIVERY'" (click)="updateOrderStatus(order.id, 4)" type="button"
             class="btn btn-light">Deliver
     </button>
     <button *ngIf="order.orderStatus == 'DELIVERED'" type="button" class="btn btn-success" disabled>Successfully

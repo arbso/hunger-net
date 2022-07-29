@@ -54,6 +54,13 @@ export class ViewResOrdersComponent implements OnInit {
     })
   }
 
+  public updateOrderStatus(id:number,status:number){
+    this.orderService.updateOrder(id,status).subscribe(data => {
+      window.location.reload();
+    }, error => console.log(error));
+  }
+
+
   public approveOrder(id: number, order: Order) {
 
     this.orderService.approveOrder(id, order).subscribe(data => {

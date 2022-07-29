@@ -30,6 +30,10 @@ export class OrderService {
     return this.httpClient.get<any>(`${this.baseURL}/user/${id}`)
   }
 
+  public updateOrder(orderId: number, status:number): Observable<Object>{
+    return this.httpClient.put<any>(`${this.baseURL}/update/${orderId}/${status}`,{});
+  }
+
   public approveOrder(id: number, order: Order): Observable<Object> {
     return this.httpClient.put<any>(`${this.baseURL}/approve/${id}`, order);
   }

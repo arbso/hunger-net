@@ -30,6 +30,12 @@ public class OrderController {
         return ResponseEntity.ok(orderService.save(orderDto));
     }
 
+    @PutMapping("/update/{id}/{statusNumber}")
+    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
+    public ResponseEntity<OrderDto> update(@PathVariable Integer id, @PathVariable Integer statusNumber){
+        return ResponseEntity.ok(orderService.update(id,statusNumber));
+    }
+
     @DeleteMapping(value = "/delete/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 //  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
@@ -55,50 +61,47 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findById(id));
     }
 
-//    @GetMapping("/{orderNumber}")
-//    public Order findOrderByOrderNumber(@PathVariable String orderNumber) {
-//        return orderService.findByOrderNumber(orderNumber);
+
+
+//    @PutMapping("/approve/{id}")
+//    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
+//    public ResponseEntity<OrderDto> approve(@PathVariable Integer id) {
+//        OrderDto approvedOrder = orderService.findById(id);
+//        approvedOrder.setOrderStatus(OrderStatus.APPROVED);
+//        return ResponseEntity.ok(orderService.update(approvedOrder, id));
 //    }
-
-    @PutMapping("/approve/{id}")
-    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> approve(@PathVariable Integer id) {
-        OrderDto approvedOrder = orderService.findById(id);
-        approvedOrder.setOrderStatus(OrderStatus.APPROVED);
-        return ResponseEntity.ok(orderService.update(approvedOrder, id));
-    }
-
-    @PutMapping("/reject/{id}")
-    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> reject(@PathVariable Integer id) {
-        OrderDto approvedOrder = orderService.findById(id);
-        approvedOrder.setOrderStatus(OrderStatus.REJECTED);
-        return ResponseEntity.ok(orderService.update(approvedOrder, id));
-    }
-
-    @PutMapping("/prepare/{id}")
-    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> prepare(@PathVariable Integer id) {
-        OrderDto approvedOrder = orderService.findById(id);
-        approvedOrder.setOrderStatus(OrderStatus.PREPARED);
-        return ResponseEntity.ok(orderService.update(approvedOrder, id));
-    }
-
-    @PutMapping("/wait/{id}")
-    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> wait(@PathVariable Integer id) {
-        OrderDto approvedOrder = orderService.findById(id);
-        approvedOrder.setOrderStatus(OrderStatus.WAITING_FOR_DELIVERY);
-        return ResponseEntity.ok(orderService.update(approvedOrder, id));
-    }
-
-    @PutMapping("/deliver/{id}")
-    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<OrderDto> deliver(@PathVariable Integer id) {
-        OrderDto approvedOrder = orderService.findById(id);
-        approvedOrder.setOrderStatus(OrderStatus.DELIVERED);
-        return ResponseEntity.ok(orderService.update(approvedOrder, id));
-    }
+//
+//    @PutMapping("/reject/{id}")
+//    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
+//    public ResponseEntity<OrderDto> reject(@PathVariable Integer id) {
+//        OrderDto approvedOrder = orderService.findById(id);
+//        approvedOrder.setOrderStatus(OrderStatus.REJECTED);
+//        return ResponseEntity.ok(orderService.update(approvedOrder, id));
+//    }
+//
+//    @PutMapping("/prepare/{id}")
+//    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
+//    public ResponseEntity<OrderDto> prepare(@PathVariable Integer id) {
+//        OrderDto approvedOrder = orderService.findById(id);
+//        approvedOrder.setOrderStatus(OrderStatus.PREPARED);
+//        return ResponseEntity.ok(orderService.update(approvedOrder, id));
+//    }
+//
+//    @PutMapping("/wait/{id}")
+//    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
+//    public ResponseEntity<OrderDto> wait(@PathVariable Integer id) {
+//        OrderDto approvedOrder = orderService.findById(id);
+//        approvedOrder.setOrderStatus(OrderStatus.WAITING_FOR_DELIVERY);
+//        return ResponseEntity.ok(orderService.update(approvedOrder, id));
+//    }
+//
+//    @PutMapping("/deliver/{id}")
+//    @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
+//    public ResponseEntity<OrderDto> deliver(@PathVariable Integer id) {
+//        OrderDto approvedOrder = orderService.findById(id);
+//        approvedOrder.setOrderStatus(OrderStatus.DELIVERED);
+//        return ResponseEntity.ok(orderService.update(approvedOrder, id));
+//    }
 
     @GetMapping("/restaurant/{id}")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
