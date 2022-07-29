@@ -2,10 +2,7 @@ package com.lufthansa.backend.service;
 
 
 import com.lufthansa.backend.exception.*;
-import com.lufthansa.backend.model.Dish;
-import com.lufthansa.backend.model.Menu;
-import com.lufthansa.backend.model.Restaurant;
-import com.lufthansa.backend.model.User;
+import com.lufthansa.backend.model.*;
 import com.lufthansa.backend.repository.DishRepository;
 import com.lufthansa.backend.repository.MenuRepository;
 import com.lufthansa.backend.converter.DtoConversion;
@@ -14,6 +11,7 @@ import com.lufthansa.backend.dto.MenuDto;
 import com.lufthansa.backend.repository.RestaurantRepository;
 import com.lufthansa.backend.repository.UserRepository;
 //import com.lufthansa.backend.util.Interval;
+import com.lufthansa.backend.util.ActiveMenu;
 import com.lufthansa.backend.util.Interval;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,6 +36,8 @@ public class MenuService {
     private final DtoConversion dtoConversion;
     private final MenuRepository menuRepository;
 
+    @Autowired
+    private final ActiveMenu activeMenu;
     private final RestaurantRepository restaurantRepository;
     private final UserRepository userRepository;
     private final DishRepository dishRepository;
@@ -112,6 +113,30 @@ public class MenuService {
 
     public MenuDto findById(Integer id) {
         logger.info("Finding menu.");
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User user = userRepository.findByUsername(authUsername);
+        Optional<Menu> menuOptional = menuRepository.findById(id);
+        if(menuOptional.isEmpty()){
+            logger.warn("This menu with the ID: "+id+ " does not exist.");
+            throw new UnauthorizedException("This menu with the ID: "+id+ " does not exist.");
+        }
+        Menu menu = menuOptional.get();
+
+        if(!activeMenu.isActive(menu.getMenuOpeningTime(),menu.getMenuClosingTime())){
+            if(user.getRoles().contains(Role.ROLE_ADMIN)){
+                return dtoConversion.convertMenu(menuRepository.findById(id).orElseThrow(()
+                        -> new ResourceNotFoundException("Could not find menu with id: " + id)));
+            }
+            if(Objects.equals(user.getRestaurantId(), menu.getRestaurantId())){
+                return dtoConversion.convertMenu(menuRepository.findById(id).orElseThrow(()
+                        -> new ResourceNotFoundException("Could not find menu with id: " + id)));
+            }
+            logger.warn("You do not have access to view this menu as it is inactive.");
+            throw new UnauthorizedException("You do not have access to view this menu as it is inactive.");
+        }
+
         return dtoConversion.convertMenu(menuRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Could not find menu with id: " + id)));
     }
