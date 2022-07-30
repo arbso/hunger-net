@@ -9,9 +9,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.lufthansa.backend.service.OrderService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +27,7 @@ public class OrderController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER','ROLE_CLIENT')")
-    public ResponseEntity<OrderDto> add(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderDto> add(@Valid @RequestBody OrderDto orderDto, BindingResult bindingResult) {
 
         return ResponseEntity.ok(orderService.save(orderDto));
     }

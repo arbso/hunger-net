@@ -9,10 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.lufthansa.backend.repository.UserRepository;
 import com.lufthansa.backend.service.UserService;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +30,7 @@ public class UserController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<User> add(@RequestBody User user) {
+    public ResponseEntity<User> add(@Valid @RequestBody User user, BindingResult bindingResult) {
 
         return ResponseEntity.ok(userService.save(user));
 

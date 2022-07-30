@@ -10,9 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.lufthansa.backend.service.RestaurantService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +28,7 @@ public class RestaurantController {
     private final UserService userService;
     @PostMapping("/add")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<RestaurantDto> add(@RequestBody RestaurantDto restaurantDto) {
+    public ResponseEntity<RestaurantDto> add(@Valid @RequestBody RestaurantDto restaurantDto, BindingResult bindingResult) {
 
         return ResponseEntity.ok(restaurantService.save(restaurantDto));
     }

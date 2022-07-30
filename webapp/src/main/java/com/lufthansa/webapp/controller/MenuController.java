@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.lufthansa.backend.service.MenuService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,7 @@ public class MenuController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<MenuDto> add(@RequestBody MenuDto menuDto) {
+    public ResponseEntity<MenuDto> add(@Valid @RequestBody MenuDto menuDto, BindingResult bindingResult) {
         return ResponseEntity.ok(menuService.save(menuDto));
     }
 
