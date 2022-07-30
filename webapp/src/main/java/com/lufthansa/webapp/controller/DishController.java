@@ -7,9 +7,12 @@ import com.lufthansa.backend.model.Dish;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.lufthansa.backend.service.DishService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +24,7 @@ public class DishController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAnyRole('ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<DishDto> add(@RequestBody DishDto dishDto) {
+    public ResponseEntity<DishDto> add(@Valid @RequestBody DishDto dishDto, BindingResult bindingResult) {
 
         return ResponseEntity.ok(dishService.save(dishDto));
     }

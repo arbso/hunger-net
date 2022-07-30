@@ -32,7 +32,7 @@ public class UserService {
         Set<UserDetails> ud = user.getUserDetails();
         if(user.getUsername()==null){
             logger.warn("Username cannot be null!");
-            throw new EmptyFieldException("Password cannot be empty!");
+            throw new EmptyFieldException("Username cannot be null!");
         }
 
         if(user.getEmail()==null){
@@ -42,18 +42,18 @@ public class UserService {
 
         if(user.getPassword()==null){
             logger.warn("Password cannot be null!");
-            throw new EmptyFieldException("Password cannot be empty!");
+            throw new EmptyFieldException("Password cannot be null!");
         }
 
         if(ud.iterator().next().getFirstName()==null
                 || ud.iterator().next().getLastName()==null
                 || ud.iterator().next().getPhoneNumber()==null){
             logger.warn("First Name, Last Name, or your Phone Number cannot be null!");
-            throw new EmptyFieldException("Password cannot be empty!");
+            throw new EmptyFieldException("First Name, Last Name, or your Phone Number cannot be null!");
         }
 
-        if(userRepository.existsById(user.getId())){
-            userRepository.save(user);
+        if(user.getId()!=null){
+            return userRepository.save(user);
         }
 
         if (!userRepository.existsByUsername(user.getUsername())) {

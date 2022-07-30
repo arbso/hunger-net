@@ -6,6 +6,10 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,12 +28,17 @@ public class Dish {
     @Column(name = "dish_id")
     private Integer id;
 
+
+    @NotEmpty(message = "Dish name can not be empty.")
     @Column(name = "dish_name")
     private String dishName;
 
+    @NotEmpty(message = "Dish Description can not be empty.")
     @Column(name = "dish_description")
     private String dishDescription;
 
+    @NotNull
+    @DecimalMin(value = "0.0", message = "Price can not be a negative number.")
     @Column(name = "dish_price")
     private Double dishPrice;
 

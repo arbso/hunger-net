@@ -8,6 +8,8 @@ import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,9 +27,11 @@ public class Menu {
     @Column(name = "menu_id")
     private Integer id;
 
+    @NotEmpty(message = "Menu Name can not be empty.")
     @Column(name = "menu_name")
     private String menuName;
 
+    @NotEmpty(message = "Menu Description can not be empty.")
     @Column(name = "menu_description")
     private String menuDescription;
 
@@ -43,6 +47,7 @@ public class Menu {
     @Column(name = "menu_closing_time")
     private Date menuClosingTime;
 
+    @NotNull(message = "Restaurant ID can not be null.")
     @Column(name = "restaurant_id")
     private Integer restaurantId;
 

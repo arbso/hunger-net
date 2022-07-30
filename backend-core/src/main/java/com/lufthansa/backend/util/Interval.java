@@ -31,6 +31,9 @@ public class Interval {
 
         LocalTime openTime2Local = sqlTimeOpen2.toLocalTime();
 
+        if(begin1.equals(begin2) && end1.equals(end2)){
+            return true;
+        }
 
 
         if (openTime1Local.equals(endTime1Local)) { // zero length, cannot overlap anything
@@ -39,6 +42,8 @@ public class Interval {
         if (openTime2Local.equals(end2)) {
             return false;
         }
+
+
 
         // If any interval is 12 hours or longer,
         // the other one is necessarily included, that is, overlaps

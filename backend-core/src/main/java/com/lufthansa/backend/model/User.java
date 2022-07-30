@@ -6,7 +6,10 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,13 +27,17 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
+    @Size(min=4, max=15)
+    @NotNull(message = "Username can not be null.")
     @Column(name = "username")
     private String username;
 
+    @NotNull(message = "Password can not be null.")
     @Column(name = "password")
     private String password;
 
-    @NotNull
+    @NotEmpty(message = "Email can not be nul.")
+    @Email
     @Column(name = "email")
     private String email;
 
@@ -38,6 +45,7 @@ public class User {
     @JoinColumn(name = "user_user_id")
     List<Role> roles;
 
+    @NotNull(message = "User Details can not be null.")
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_details", joinColumns = @JoinColumn(name = "id"))
     private Set<UserDetails> userDetails = new HashSet<>();

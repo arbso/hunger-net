@@ -8,12 +8,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -80,5 +85,28 @@ public class GlobalExceptionHandlerController {
                 ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ErrorMessage> handleValidationExceptions(
+//            MethodArgumentNotValidException ex, WebRequest request) {
+//        ErrorMessage message = new ErrorMessage(
+//                HttpStatus.BAD_REQUEST.value(),
+//                ex.getMessage(),
+//                request.getDescription(false));
+//        return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
+//    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorMessage> handleValidationExceptions(ConstraintViolationException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+        ex.getConstraintViolations().iterator().next().getMessage(),
+
+                        request.getDescription(false)
+        );
+        return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
     }
 }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,12 +23,15 @@ public class Restaurant {
     @Column(name = "restaurant_id")
     private Integer id;
 
+    @NotEmpty(message = "Restaurant Name can not be empty.")
     @Column(name = "restaurant_name")
     private String restaurantName;
 
+    @NotEmpty(message = "Restaurant Phone Number can not be empty.")
     @Column(name = "restaurant_phone")
     private String restaurantPhone;
 
+    @NotEmpty(message = "Restaurant Email can not be empty.")
     @Column(name = "restaurant_email")
     private String restaurantEmail;
 

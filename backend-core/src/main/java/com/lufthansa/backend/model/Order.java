@@ -7,6 +7,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Entity
@@ -22,6 +25,7 @@ public class Order {
     @Column(name = "orders_id")
     private Integer id;
 
+    @NotEmpty(message = "Order Address can not be empty.")
     @Column(name = "orders_address")
     private String orderAddress;
 
@@ -35,25 +39,34 @@ public class Order {
     @Column(name = "orders_number")
     private String orderNumber;
 
+    @NotNull(message = "Total price can not be empty.")
+    @Min(0)
     @Column(name = "total_price")
     private double totalPrice;
 
+    @NotNull(message = "Restaurant Name can not be null.")
     @Column(name = "restaurant_name")
     private String restaurantName;
 
+    @NotNull(message = "Dish Name can not be null.")
     @Column(name = "dish_name")
     private String dishName;
 
+    @Min(1)
+    @NotNull(message = "Quantity can not be null.")
     @Column(name="quantity")
     private Integer quantity;
 
+    @NotNull(message = "Dish can not be null.")
     @OneToOne
     private Dish dish;
 
+    @NotNull(message = "User ID can not be null.")
     @Column(name="user_id")
     @JoinColumn(name="user_id")
     private Integer userId;
 
+    @NotNull(message = "Restaurant ID can not be null.")
     @Column(name="restaurant_id")
     @JoinColumn(name="restaurant_id")
     private Integer restaurantId;
