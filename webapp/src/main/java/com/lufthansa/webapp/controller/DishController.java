@@ -2,6 +2,7 @@ package com.lufthansa.webapp.controller;
 
 
 import com.lufthansa.backend.dto.DishDto;
+import com.lufthansa.backend.exception.EmptyFieldException;
 import lombok.RequiredArgsConstructor;
 import com.lufthansa.backend.model.Dish;
 import org.springframework.http.HttpStatus;

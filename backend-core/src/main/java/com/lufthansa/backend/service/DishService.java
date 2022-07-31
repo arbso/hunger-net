@@ -52,6 +52,7 @@ public class DishService {
             throw new EmptyFieldException("Dish price cannot be empty!");
         }
 
+
         if(dishDto.getDishDescription()==null){
             logger.warn("Dish description cannot be null!");
             throw new EmptyFieldException("Dish description cannot be empty!");
@@ -78,6 +79,7 @@ public class DishService {
             logger.warn("Dish price cannot be null!");
             throw new EmptyFieldException("Dish price cannot be empty!");
         }
+
 
         if(dishDto.getDishDescription()==null){
             logger.warn("Dish description cannot be null!");

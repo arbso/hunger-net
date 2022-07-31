@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
@@ -36,6 +37,7 @@ public class Dish {
     @NotEmpty(message = "Dish Description can not be empty.")
     @Column(name = "dish_description")
     private String dishDescription;
+
 
     @NotNull
     @DecimalMin(value = "0.0", message = "Price can not be a negative number.")

@@ -4,10 +4,7 @@ import com.lufthansa.backend.exception.EmptyFieldException;
 import com.lufthansa.backend.exception.EntityNotFoundException;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
 import com.lufthansa.backend.exception.UnauthorizedException;
-import com.lufthansa.backend.model.Order;
-import com.lufthansa.backend.model.OrderStatus;
-import com.lufthansa.backend.model.Restaurant;
-import com.lufthansa.backend.model.User;
+import com.lufthansa.backend.model.*;
 import com.lufthansa.backend.repository.OrderRepository;
 import com.lufthansa.backend.converter.DtoConversion;
 import com.lufthansa.backend.dto.OrderDto;
@@ -207,6 +204,31 @@ public class OrderService {
     }
 
     public OrderDto findById(Integer id) {
+        Optional<Order> orderOptional = orderRepository.findById(id);
+
+        if(orderOptional.isEmpty()){
+            logger.warn("This order with the ID: "+id+ " does not exist.");
+            throw new UnauthorizedException("This order with the ID: "+id+ " does not exist.");
+        }
+        Order order = orderOptional.get();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User user = userRepository.findByUsername(authUsername);
+        if (user.getRestaurantId() != order.getRestaurantId()){
+            if(user.getRoles().contains(Role.ROLE_ADMIN)){
+                return dtoConversion.convertOrder(orderRepository.findById(id).orElseThrow(()
+                        -> new ResourceNotFoundException("Could not find order with id: " + id)));
+
+            }
+            if(user.getId() == order.getUserId()){
+                return dtoConversion.convertOrder(orderRepository.findById(id).orElseThrow(()
+                        -> new ResourceNotFoundException("Could not find order with id: " + id)));
+
+            }
+            logger.error("You do not have access to this restaurant's orders.");
+            throw new UnauthorizedException("You do not have access to this restaurant's orders.");
+        }
         return dtoConversion.convertOrder(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find order with id: " + id)));
 
     }
