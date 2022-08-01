@@ -32,7 +32,9 @@ export class CreateRestaurantComponent implements OnInit {
         this.router.navigate['/admin/']
       },
       (err: any) => {
-        console.log(err.error.message);
+        this.isRegister = false;
+        this.isRegisterFail = true;
+        this.errorMsg = err.error.message;
       }
     );
   }

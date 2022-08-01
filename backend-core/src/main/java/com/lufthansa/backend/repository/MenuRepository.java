@@ -13,7 +13,7 @@ import java.util.List;
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
     // Query to filter out the menus that are not active
-    @Query(value = "SELECT * FROM menu m WHERE m.restaurant_id=:id \n" +
+    @Query(value = "SELECT * FROM menu m WHERE m.restaurant_id=:id\n" +
             "AND ((m.menu_opening_time < m.menu_closing_time AND NOW() BETWEEN m.menu_opening_time AND m.menu_closing_time)\n" +
             "  OR\n" +
             "  (m.menu_closing_time < m.menu_opening_time AND NOW() < m.menu_opening_time AND NOW() < m.menu_closing_time)\n" +
@@ -23,6 +23,6 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
 
     // Query to retrieve all menus that belong to a restaurant
 
-    @Query(value = "SELECT * FROM menu m WHERE m.restaurant_id=:id", nativeQuery = true)
+    @Query(value = "SELECT * FROM menu m WHERE m.restaurant_id=:id AND m.active=true", nativeQuery = true)
     List<Menu> getMenusByRestaurantId(@Param("id") Integer id);
 }

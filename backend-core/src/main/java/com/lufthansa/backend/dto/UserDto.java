@@ -21,7 +21,7 @@ public class UserDto {
 
     List<Role> roles;
 
-    private UserDetailsDto userDetails;
+    private Set<UserDetailsDto> userDetails = new HashSet<>();;
 
     private Set<OrderDto> orders = new HashSet<>();
 

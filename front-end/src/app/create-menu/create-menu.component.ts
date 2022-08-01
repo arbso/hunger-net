@@ -39,7 +39,9 @@ export class CreateMenuComponent implements OnInit {
           this.isRegisterFail = false;
         },
         (err: any) => {
-          console.log(err.error.message);
+          this.isRegister = false;
+          this.isRegisterFail = true;
+          this.errorMsg = err.error.message;
         }
       );
     })

@@ -33,7 +33,9 @@ export class CreateDishComponent implements OnInit {
         this.router.navigate(['manage-restaurant/inspect', this.menuId])
       },
       (err: any) => {
-        console.log(err.error.message);
+        this.isRegister = false;
+        this.isRegisterFail = true;
+        this.errorMsg = err.error.message;
       }
     );
   }

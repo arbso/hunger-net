@@ -1,6 +1,7 @@
 package com.lufthansa.webapp.controller;
 
 
+import com.lufthansa.backend.dto.UserDto;
 import com.lufthansa.backend.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import com.lufthansa.backend.model.Role;
@@ -30,14 +31,13 @@ public class UserController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<User> add(@Valid @RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<UserDto> add(@Valid @RequestBody UserDto user, BindingResult bindingResult) {
 
         return ResponseEntity.ok(userService.save(user));
 
     }
 
     @DeleteMapping(value = "/delete/{id}")
-//  @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable Integer id) {
         userService.deleteById(id);
     }
@@ -45,8 +45,8 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<User>> findAllUsers() {
-        List<User> users = userService.findAll();
+    public ResponseEntity<List<UserDto>> findAllUsers() {
+        List<UserDto> users = userService.findAll();
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -54,8 +54,7 @@ public class UserController {
     }
 
     @PatchMapping("/update/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User user) {
+    public ResponseEntity<UserDto> update(@Valid @PathVariable Integer id, @RequestBody UserDto user, BindingResult bindingResult) {
         return ResponseEntity.ok(userService.update(user, id));
     }
 

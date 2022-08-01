@@ -11,8 +11,6 @@ import javax.persistence.Embeddable;
 @Data
 public class UserDetailsDto {
 
-    private Integer id;
-
     private String firstName;
 
     private String lastName;

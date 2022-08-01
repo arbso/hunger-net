@@ -37,8 +37,7 @@ export class CreateUserComponent implements OnInit {
         this.router.navigate(['admin']);
       },
       (err: any) => {
-        console.log(err.error.mensaje);
-        this.errorMsg = err.error.mensaje;
+        this.errorMsg = err.error.message;
         this.isRegister = false;
         this.isRegisterFail = true;
       }

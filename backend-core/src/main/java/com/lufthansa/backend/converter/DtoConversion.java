@@ -4,6 +4,8 @@ import com.lufthansa.backend.dto.*;
 import com.lufthansa.backend.model.*;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -17,8 +19,13 @@ public class DtoConversion {
         userDto.setPassword(user.getPassword());
         userDto.setEmail(user.getEmail());
         userDto.setRoles(user.getRoles());
-
         userDto.setRestaurantId(user.getRestaurantId());
+        userDto.setUserDetails(user.getUserDetails()
+                .stream().map(this::convertUserDetails)
+                .collect(Collectors.toSet()));
+        userDto.setOrders(user.getOrders()
+                .stream().map(this::convertOrder)
+                .collect(Collectors.toSet()));
         return userDto;
     }
 
@@ -29,6 +36,18 @@ public class DtoConversion {
         userDetailsDto.setPhoneNumber(userDetails.getPhoneNumber());
         return userDetailsDto;
     }
+
+    public UserDetails convertToUserDetails(Set<UserDetailsDto> userDetailsDto){
+        UserDetails userDetails = new UserDetails();
+
+        UserDetailsDto userDetailsDto1 = userDetailsDto.iterator().next();
+        userDetails.setFirstName(userDetailsDto1.getFirstName());
+        userDetails.setLastName(userDetailsDto1.getLastName());
+        userDetails.setPhoneNumber(userDetailsDto1.getPhoneNumber());
+
+        return userDetails;
+    }
+
 
     public RestaurantDto convertRestaurant(Restaurant restaurant) {
         RestaurantDto restaurantDto = new RestaurantDto();
