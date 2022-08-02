@@ -85,7 +85,13 @@ public class UserService {
 
         if (!userRepository.existsByUsername(userDto.getUsername())) {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-            user.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
+            if(userDto.getRestaurantId() != null){
+                user.setRestaurantId(userDto.getRestaurantId());
+                user.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_RESTAURANT_MANAGER)));
+            }else{
+                user.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_CLIENT)));
+            }
+
             logger.info("Saving user.");
             return dtoConversion.convertUser(userRepository.save(user));
         } else {
@@ -157,12 +163,26 @@ public class UserService {
     }
 
 
-    public User findById(Integer id) {
+    public UserDto findById(Integer id) {
         logger.info("Finding user.");
-        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Could not find user with id: " + id));
+        Optional<User> userOptional = userRepository.findById(id);
+
+        org.springframework.security.core.userdetails.UserDetails userDetails = (org.springframework.security.core.userdetails.UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User userAuth = userRepository.findByUsername(authUsername);
+
+        User user = userOptional.get();
+        if ((user.getId() != userAuth.getId()) && !(userAuth.getRoles().contains(Role.ROLE_ADMIN))){
+
+            logger.error("You do not have access to view this user.");
+            throw new UnauthorizedException("You do not have access to view this user");
+        }
+        return dtoConversion.convertUser(userRepository.findById(id).orElseThrow(()
+                -> new ResourceNotFoundException("Could not find user with id: " + id)));
     }
 
-    public List<User> findByRole(Integer id) {
+    public List<User> findByRole(String id) {
         logger.info("Find user by role.");
         return userRepository.findUserByRoles(id);
     }
@@ -182,9 +202,22 @@ public class UserService {
         return userRepository.findAdminUsers();
     }
 
-    public User findByUsername(String username) {
+    public UserDto findByUsername(String username) {
         logger.info("Finding user by username");
-        return userRepository.findByUsername(username);
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByUsername(username));
+
+        org.springframework.security.core.userdetails.UserDetails userDetails = (org.springframework.security.core.userdetails.UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        String authUsername = userDetails.getUsername();
+        User userAuth = userRepository.findByUsername(authUsername);
+
+        User user = userOptional.get();
+        if ((user.getId() != userAuth.getId()) && !(userAuth.getRoles().contains(Role.ROLE_ADMIN))){
+
+            logger.error("You do not have access to view this user.");
+            throw new UnauthorizedException("You do not have access to view this user");
+        }
+        return dtoConversion.convertUser(userRepository.findByUsername(username));
     }
 
     public Page<User> findPaginated(int page, int size) {

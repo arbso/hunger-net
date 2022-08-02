@@ -27,5 +27,6 @@ public class UserDto {
 
     private Integer restaurantId;
 
+    private boolean active = Boolean.TRUE;
 
 }

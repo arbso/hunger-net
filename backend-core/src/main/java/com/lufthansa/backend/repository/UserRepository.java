@@ -15,7 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, PagingAndS
 
     // Query to find users with a specific role
     @Query(value = "SELECT user.* FROM user INNER JOIN user_roles ON user.user_id = user_roles.user_user_id WHERE user_roles.roles=:id;", nativeQuery = true)
-    List<User> findUserByRoles(@Param("id") Integer id);
+    List<User> findUserByRoles(@Param("id") String id);
+
 
     // Query to filter out the admins in a user list
     @Query(value = "SELECT user.* FROM user INNER JOIN user_roles ON user.user_id = user_roles.user_user_id WHERE user_roles.roles !=2", nativeQuery = true)

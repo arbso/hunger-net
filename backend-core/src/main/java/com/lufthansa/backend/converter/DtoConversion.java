@@ -26,6 +26,7 @@ public class DtoConversion {
         userDto.setOrders(user.getOrders()
                 .stream().map(this::convertOrder)
                 .collect(Collectors.toSet()));
+        userDto.setActive(user.isActive());
         return userDto;
     }
 

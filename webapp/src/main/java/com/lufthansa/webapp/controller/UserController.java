@@ -54,30 +54,30 @@ public class UserController {
     }
 
     @PatchMapping("/update/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER','ROLE_CLIENT')")
     public ResponseEntity<UserDto> update(@Valid @PathVariable Integer id, @RequestBody UserDto user, BindingResult bindingResult) {
         return ResponseEntity.ok(userService.update(user, id));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> findUserById(@PathVariable Integer id) {
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER','ROLE_CLIENT')")
+    public ResponseEntity<UserDto> findUserById(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.findById(id));
     }
 
 
     @PutMapping("/make-manager/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> makeManager(@PathVariable Integer id, @RequestBody User user) {
-        User userManager = userService.findById(user.getId());
+    public ResponseEntity<UserDto> makeManager(@PathVariable Integer id, @RequestBody UserDto user) {
+        UserDto userManager = userService.findById(user.getId());
         userManager.setRestaurantId(id);
-
         userManager.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_RESTAURANT_MANAGER)));
-        return ResponseEntity.ok(userRepository.save(userManager));
+        return ResponseEntity.ok(userService.save(userManager));
     }
 
     @GetMapping("/roles/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<User>> findUsersByRole(@PathVariable("id") Integer id) {
+    public ResponseEntity<List<User>> findUsersByRole(@PathVariable("id") String id) {
         List<User> users = userService.findByRole(id);
         if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -89,7 +89,7 @@ public class UserController {
 
     @GetMapping("/username/{username}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_RESTAURANT_MANAGER')")
-    public ResponseEntity<User> findUsersByUsername(@PathVariable("username") String username) {
+    public ResponseEntity<UserDto> findUsersByUsername(@PathVariable("username") String username) {
         return ResponseEntity.ok(userService.findByUsername(username));
     }
 
