@@ -105,7 +105,24 @@ public class UserService {
 
 
     public UserDto update(UserDto userDto, Integer id) {
+        Set<UserDetailsDto> ud = userDto.getUserDetails();
+        if(userDto.getUsername()==null){
+            logger.warn("Username cannot be null!");
+            throw new EmptyFieldException("Username cannot be null!");
+        }
 
+        if(userDto.getEmail()==null){
+            logger.warn("Email cannot be null!");
+            throw new EmptyFieldException("Empty cannot be empty!");
+        }
+
+
+        if(ud.iterator().next().getFirstName()==null
+                || ud.iterator().next().getLastName()==null
+                || ud.iterator().next().getPhoneNumber()==null){
+            logger.warn("First Name, Last Name, or your Phone Number cannot be null!");
+            throw new EmptyFieldException("First Name, Last Name, or your Phone Number cannot be null!");
+        }
         Optional<User> userOptional = userRepository.findById(id);
 
         org.springframework.security.core.userdetails.UserDetails userDetails = (org.springframework.security.core.userdetails.UserDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -120,6 +137,12 @@ public class UserService {
             throw new UnauthorizedException("You do not have access to edit this user");
         }
 
+        if(!Objects.equals(user.getUsername(), userDto.getUsername())){
+            if (userRepository.existsByUsername(userDto.getUsername())) {
+                logger.warn("Username is already in use.");
+                throw new EmptyFieldException("Username is already in use.");
+            }
+        }
 
             user.setUsername(userDto.getUsername());
             user.setEmail(userDto.getEmail());
@@ -145,6 +168,9 @@ public class UserService {
                 }
             }
             user.setOrders(orderSet);
+            user.setRestaurantId(userDto.getRestaurantId());
+
+
 
             logger.info("Updating user.");
             return dtoConversion.convertUser(userRepository.save(user));
